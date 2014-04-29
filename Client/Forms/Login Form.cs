@@ -9,7 +9,7 @@ using System.Windows.Forms;
 using System.Net;
 using System.Net.Sockets;
 
-namespace PlayerTracker.Forms {
+namespace PlayerTracker.Client.Forms {
 	public partial class frmLogin : Form {
 		public frmLogin() {
 			InitializeComponent();

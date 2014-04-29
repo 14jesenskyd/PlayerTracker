@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-namespace PlayerTracker.Forms {
+namespace PlayerTracker.Client.Forms {
 	public partial class frmSearch : Form {
 		public frmSearch() {
 			InitializeComponent();

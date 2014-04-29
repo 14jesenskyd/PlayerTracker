@@ -1,4 +1,4 @@
-﻿namespace PlayerTracker.Forms {
+﻿namespace PlayerTracker.Client.Forms {
 	partial class frmLogin {
 		/// <summary>
 		/// Required designer variable.

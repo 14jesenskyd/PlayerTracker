@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{5753BAD3-D55C-414C-8DD7-5AFC25C3EFBD}</ProjectGuid>
+    <ProjectGuid>{5CB554F3-1953-4CB5-8C9F-3E34A2723A72}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>PlayerTracker</RootNamespace>
-    <AssemblyName>Player Tracker</AssemblyName>
+    <RootNamespace>PlayerTracker.Server</RootNamespace>
+    <AssemblyName>Player Tracker Server</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
@@ -49,26 +49,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Forms\Login Form.cs">
+    <Compile Include="Forms\Server Form.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\Login Form.Designer.cs">
-      <DependentUpon>Login Form.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\Search Form.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\Search Form.Designer.cs">
-      <DependentUpon>Search Form.cs</DependentUpon>
+    <Compile Include="Forms\Server Form.Designer.cs">
+      <DependentUpon>Server Form.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Forms\Login Form.resx">
-      <DependentUpon>Login Form.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Search Form.resx">
-      <DependentUpon>Search Form.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -79,6 +67,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="Forms\Server Form.resx">
+      <DependentUpon>Server Form.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -89,7 +80,6 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
