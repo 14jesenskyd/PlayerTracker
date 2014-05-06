@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
-using PlayerTracker.Forms;
+using PlayerTracker.Client.Forms;
 
 namespace PlayerTracker {
 	static class Program {
