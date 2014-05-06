@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using PlayerTracker.Common.Net;
+using MySql.Data;
+using MySql.Data.MySqlClient;
 
 namespace PlayerTracker.Server.Util {
 	public class DatabaseManager {
-		private Connection connection;
+		private MySqlConnection connection;
 		private String host;
 		private String username;
 		private String password;
@@ -22,30 +24,27 @@ namespace PlayerTracker.Server.Util {
 		}
 
 		public void connect() {
-			/* TODO reimplement
-		//        jdbc:mysql://[host][:port]/[database]
-				//String c = "jdbc:mysql://"+this.host+":"+this.port+"/"+this.db+"?user="+this.username+"&password="+this.password+"&tcpKeepAlive=true&autoReconnect=true";
-		//        String c = "jdbc:mysql://"+this.host+":"+this.port+"/"+this.db;
-				MysqlDataSource d = new MysqlDataSource();
-				//d.setConnectionCollation(c);
-				d.setUser(this.username);
-				d.setPassword(this.password);
-				d.setServerName(this.host);
-				d.setPort(this.port);
-				d.setDatabaseName(this.db);
-				this.connection = d.getConnection();
-		//        this.connection = DriverManager.getConnection(c, username,  password);
-			 */
+			this.connection = new MySqlConnection("Server=" + this.host + ";Port=" + this.port + ";Database=" + this.db + ";UID=" + this.username + ";Password=" + this.password + ";SslMode=Preferred;");
+			this.connection.Open();
 		}
 
 		public String getDatabase() {
 			return this.db;
 		}
 
-		/* TODO reimplement
-		public PreparedStatement prepareStatement(String sql) {
-			return this.connection.prepareStatement(sql);
+		public void executeScalar(string sql) {
+			MySqlCommand command = new MySqlCommand(sql, this.connection);
+			command.ExecuteScalar();
 		}
-		 */
+
+		public void executeNonQuery(string sql) {
+			MySqlCommand command = new MySqlCommand(sql, this.connection);
+			command.ExecuteNonQuery();
+		}
+
+		public void executeReader(string sql) {
+			MySqlCommand command = new MySqlCommand(sql, this.connection);
+			command.ExecuteReader();
+		}
 	}
 }

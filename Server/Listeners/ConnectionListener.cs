@@ -5,7 +5,7 @@ using System.Text;
 using PlayerTracker.Server.Events;
 
 namespace PlayerTracker.Server.Listeners {
-	public interface ConnectionListener {
+	public interface ConnectionListener{
 		void onConnectEvent(ConnectionEvent evt);
 	}
 }
