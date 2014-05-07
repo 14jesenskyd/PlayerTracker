@@ -35,13 +35,13 @@
 			this.lblStatus.AutoSize = true;
 			this.lblStatus.Location = new System.Drawing.Point(12, 18);
 			this.lblStatus.Name = "lblStatus";
-			this.lblStatus.Size = new System.Drawing.Size(153, 13);
+			this.lblStatus.Size = new System.Drawing.Size(135, 13);
 			this.lblStatus.TabIndex = 0;
-			this.lblStatus.Text = "Server is currently not listening.";
+			this.lblStatus.Text = "Server is currently listening.";
 			// 
 			// btnToggleListening
 			// 
-			this.btnToggleListening.Location = new System.Drawing.Point(195, 13);
+			this.btnToggleListening.Location = new System.Drawing.Point(249, 13);
 			this.btnToggleListening.Name = "btnToggleListening";
 			this.btnToggleListening.Size = new System.Drawing.Size(75, 23);
 			this.btnToggleListening.TabIndex = 1;
@@ -51,7 +51,7 @@
 			// 
 			// btnViewConnections
 			// 
-			this.btnViewConnections.Location = new System.Drawing.Point(195, 42);
+			this.btnViewConnections.Location = new System.Drawing.Point(249, 42);
 			this.btnViewConnections.Name = "btnViewConnections";
 			this.btnViewConnections.Size = new System.Drawing.Size(75, 23);
 			this.btnViewConnections.TabIndex = 3;
@@ -70,7 +70,7 @@
 			// 
 			// btnConfigure
 			// 
-			this.btnConfigure.Location = new System.Drawing.Point(195, 71);
+			this.btnConfigure.Location = new System.Drawing.Point(249, 71);
 			this.btnConfigure.Name = "btnConfigure";
 			this.btnConfigure.Size = new System.Drawing.Size(75, 23);
 			this.btnConfigure.TabIndex = 4;
@@ -82,7 +82,7 @@
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(282, 107);
+			this.ClientSize = new System.Drawing.Size(336, 107);
 			this.Controls.Add(this.btnConfigure);
 			this.Controls.Add(this.btnViewConnections);
 			this.Controls.Add(this.label1);
@@ -93,6 +93,7 @@
 			this.Name = "frmServer";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text = "Player Tracker Server";
+			this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.frmServer_FormClosed);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 

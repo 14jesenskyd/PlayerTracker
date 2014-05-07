@@ -22,5 +22,16 @@ namespace PlayerTracker.Server.Properties {
                 return defaultInstance;
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
+        [global::System.Configuration.DefaultSettingValueAttribute("persistsecurityinfo=True;user id=root;password=root;server=127.0.0.1;database=pla" +
+            "yertracker")]
+        public string playertrackerConnectionString {
+            get {
+                return ((string)(this["playertrackerConnectionString"]));
+            }
+        }
     }
 }

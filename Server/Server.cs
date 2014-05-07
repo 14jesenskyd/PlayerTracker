@@ -17,6 +17,7 @@ namespace PlayerTracker.Server {
 		private Logger log;
 		private DataManager dataMan;
 		private Configuration config;
+		private bool accepting;
 
 		private Server()
 			: base() {
@@ -27,10 +28,9 @@ namespace PlayerTracker.Server {
 			}
 			try {
 				this.loadConfiguration("config");
-				//this.connectionManager.start();
+				this.connectionManager.start();
 				this.dataMan = new DataManager();
-				//this.dataMan.start();
-
+				this.dataMan.start();
 
 				//this.connectionManager = new ConnectionManager("127.0.0.1", 1534);
 				//this.dbMan = new DatabaseManager("127.0.0.1", 3306, "root", "root", "playertracker");
@@ -72,6 +72,7 @@ namespace PlayerTracker.Server {
 				//            }
 				//            s.close();
 				//            r.close();
+				this.accepting = true;
 			} catch (IOException e) {
 				this.log.error(e.Message);
 			}
@@ -85,6 +86,23 @@ namespace PlayerTracker.Server {
 			if (Server.singletonInstance == null)
 				Server.singletonInstance = new Server();
 			return Server.singletonInstance;
+		}
+
+		public void toggleListening() {
+			if (this.accepting) {
+				this.connectionManager.stop();
+				this.dataMan.stop();
+				this.connectionManager.closeConnections();
+				this.accepting = false;
+			} else {
+				this.connectionManager.start();
+				this.dataMan.start();
+				this.accepting = true;
+			}
+		}
+
+		public bool isAccepting() {
+			return this.accepting;
 		}
 
 		//public static void main(string[] args) {
@@ -110,12 +128,10 @@ namespace PlayerTracker.Server {
 		}
 
 		private void loadConfiguration(string filename) {
-			if (File.Exists(filename))
-				this.config = Configuration.load(filename);
-			else
-				this.config = new Configuration();
+			this.config = Configuration.load(filename);
 			this.connectionManager = new ConnectionManager(this.config.getValue<int>("port", 1534), this.config.getValue<string>("hostname", "127.0.0.1"));
 			this.dbMan = new DatabaseManager(this.config.getValue<string>("db-hostname", "127.0.0.1"), this.config.getValue<int>("db-port", 3306), this.config.getValue<string>("db-user", "root"), this.config.getValue<string>("db-password", "root"), this.config.getValue<string>("db-database", "playertracker"));
+			this.dbMan.connect();
 		}
 
 		public override string ToString() {

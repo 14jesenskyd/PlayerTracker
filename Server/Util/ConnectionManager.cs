@@ -10,13 +10,16 @@ using PlayerTracker.Common.Exceptions;
 using PlayerTracker.Common.Net;
 using PlayerTracker.Server.Listeners;
 using PlayerTracker.Server.Events;
+using System.Threading;
 
 namespace PlayerTracker.Server.Util {
 	public class ConnectionManager {
 		private Dictionary<IPAddress, Connection> connections;
 		private Socket socket;
+		private IPEndPoint iep;
 		private bool accepting;
 		private List<ConnectionListener> listeners;
+		private Thread thread;
 
 		/// Instantiates a new {@code ConnectionManager}.<br />
 		/// <br />
@@ -27,13 +30,15 @@ namespace PlayerTracker.Server.Util {
 		/// thread-safety with whatever actions they may perform.
 		public ConnectionManager(int port, String host = null) {
 			this.connections = new Dictionary<IPAddress, Connection>();
+			byte[] b = new byte[host.Split('.').Length];
+			int i = 0;
 			if (host != null) {
-				this.socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-				IPAddress ip = IPAddress.Parse(host);
-				EndPoint ep = new IPEndPoint(ip, port);
-				this.socket.Bind(ep);
+				foreach (string s in host.Split('.'))
+					b[i++] = byte.Parse(s);
+				IPAddress ip = new IPAddress(b);
+				this.iep = new IPEndPoint(ip, port);
 			} else
-				this.socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+				this.iep = new IPEndPoint(new IPAddress(new byte[] { 127, 0, 0, 1 }), 1534);
 			this.listeners = new List<ConnectionListener>();
 			this.accepting = true;
 		}
@@ -102,12 +107,22 @@ namespace PlayerTracker.Server.Util {
 		/**
 		 * {@inheritDoc}
 		 */
-		public void run() {
+		public void start() {
+			this.accepting = true;
+			new Thread(new ThreadStart(run)).Start();
+		}
+
+
+		private void run() {
+			this.thread = Thread.CurrentThread;
+			this.socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+			this.socket.Bind(this.iep);
 			while (this.accepting) {
 				try {
+					this.socket.Listen(1);
 					Socket sock = this.socket.Accept();
 					Connection conn = new Connection(sock);
-					this.connections[((IPEndPoint)sock.RemoteEndPoint).Address] = conn;
+					this.connections.Add(((IPEndPoint)sock.RemoteEndPoint).Address, conn);
 					this.updateConnectionListeners(new ConnectionEvent(conn));
 				} catch (IOException e) {
 					Server.getLogger().error(e.Message);
@@ -116,6 +131,7 @@ namespace PlayerTracker.Server.Util {
 				}
 			}
 		}
+
 
 		/**
 		 * Calls {@link me.jesensky.dan.playertracker.listeners.ConnectionListener#onConnectEvent(me.jesensky.dan.playertracker.events.ConnectionEvent)}
@@ -132,6 +148,12 @@ namespace PlayerTracker.Server.Util {
 				if (listener != null)
 					listener.onConnectEvent(evt);
 			}
+		}
+
+		public void stop() {
+			this.accepting = false;
+			this.thread.Abort();
+			this.socket.Close();
 		}
 
 		public void closeConnections() {

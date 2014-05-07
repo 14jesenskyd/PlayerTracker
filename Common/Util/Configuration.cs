@@ -54,11 +54,15 @@ namespace PlayerTracker.Common.Util {
 		 *                     already being used.
 		 */
 		public static Configuration load(String filename) {
-			BinaryFormatter f = new BinaryFormatter();
-			Stream fis = File.Open(filename, FileMode.Open, FileAccess.Read, FileShare.Read);
-			Configuration c = (Configuration)f.Deserialize(fis);
-			fis.Close();
-			return c;
+			if (File.Exists(filename)) {
+				BinaryFormatter f = new BinaryFormatter();
+				Stream fis = File.Open(filename, FileMode.Open, FileAccess.Read, FileShare.Read);
+				Configuration c = (Configuration)f.Deserialize(fis);
+				fis.Close();
+				return c;
+			} else {
+				return new Configuration();
+			}
 		}
 
 		/**
