@@ -11,10 +11,6 @@ using PlayerTracker.Common.Util;
 
 namespace PlayerTracker.Server.Forms {
 	public partial class frmServer : Form {
-		private ConnectionManager connectionMan;
-		private DataManager dataMan;
-		private DatabaseManager dbMan;
-
 		public frmServer() {
 			InitializeComponent();
 			Server.getSingleton();
@@ -36,7 +32,6 @@ namespace PlayerTracker.Server.Forms {
 		private void frmServer_FormClosed(object sender, FormClosedEventArgs e) {
 			if(Server.getSingleton().isAccepting()){
 				Server.getSingleton().toggleListening();
-			
 			}
 		}
 	}

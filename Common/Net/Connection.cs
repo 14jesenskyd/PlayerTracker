@@ -10,7 +10,12 @@ using PlayerTracker.Common.Net.Packets;
 
 namespace PlayerTracker.Common.Net {
 	public class Connection {
-		protected Socket sock;
+		private Socket sock;
+
+		public Connection(IPEndPoint iep){
+			this.sock = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+			this.sock.Connect(iep);
+		}
 
 		public Connection(Socket sock) {
 			if (sock == null || !sock.Connected)
@@ -20,6 +25,10 @@ namespace PlayerTracker.Common.Net {
 
 		public void send(params byte[] i) {
 			this.sock.Send(i, SocketFlags.None);
+		}
+
+		public void send(Packet p){
+			this.send(p.getAmmendedData());
 		}
 
 		public Packet readData() {
