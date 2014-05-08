@@ -11,6 +11,9 @@ namespace PlayerTracker.Common.Net.Packets {
 			: base(PacketType.DATA_RESPONSE, data) {
 		}
 
+        public DataResponsePacket(Packet p) : base(p) {
+        }
+
 		public DataResponsePacket(string name, string notes, string violations, UserViolationLevel vl)
 			: base(PacketType.DATA_RESPONSE, getBytesFromData(name, notes, violations, vl)){
 		}

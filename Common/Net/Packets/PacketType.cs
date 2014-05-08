@@ -14,7 +14,7 @@ namespace PlayerTracker.Common.Net.Packets {
 
 		public static PacketType getTypeFromHeader(params byte[] head) {
 			foreach (PacketType t in PacketType.Values) {
-				if (Array.Equals(t.getHeader(), head))
+				if (t.Equals(head))
 					return t;
 			}
 			throw new InvalidPacketException("Header did not match any packet types.");
@@ -23,6 +23,23 @@ namespace PlayerTracker.Common.Net.Packets {
 		public byte[] getHeader() {
 			return this.header;
 		}
+
+        public bool Equals(PacketType t) {
+            if (t.getHeader().Length != this.header.Length)
+                return false;
+            for (int i = 0; i < t.getHeader().Length; i++)
+                if (t.getHeader()[i] != this.header[i])
+                    return false;
+            return true;
+        }
+        public bool Equals(byte[] t) {
+            if (t.Length != this.header.Length)
+                return false;
+            for (int i = 0; i < t.Length; i++)
+                if (t[i] != this.header[i])
+                    return false;
+            return true;
+        }
 
 		public static IEnumerable<PacketType> Values {
 			get {

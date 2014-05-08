@@ -37,11 +37,11 @@ namespace PlayerTracker.Client.Util {
 					if (Client.getClient().getConnection().dataRemaining()) {
 						Packet p = Client.getClient().getConnection().readData();
 
-						if (p.getType().Equals(PacketType.LOGIN_RESPONSE)) {
-							this.responses.Enqueue((LoginResponsePacket)p);
-						} else if (p.getType().Equals(PacketType.DATA_RESPONSE)) {
-							this.responses.Enqueue((DataResponsePacket)p);
-						}
+                        if (p.getType().Equals(PacketType.LOGIN_RESPONSE)) {
+							this.responses.Enqueue(new LoginResponsePacket(p));
+                        } else if (p.getType().Equals(PacketType.DATA_RESPONSE)) {
+                            this.responses.Enqueue(new DataResponsePacket(p));
+                        }
 					}
 				} catch (InvalidPacketException e) {
 					Client.getLogger().error(e.Message);

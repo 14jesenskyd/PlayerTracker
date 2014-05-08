@@ -122,8 +122,10 @@ namespace PlayerTracker.Server.Util {
 					this.socket.Listen(1);
 					Socket sock = this.socket.Accept();
 					Connection conn = new Connection(sock);
-					this.connections.Add(((IPEndPoint)sock.RemoteEndPoint).Address, conn);
-					this.updateConnectionListeners(new ConnectionEvent(conn));
+                    if (!this.connections.ContainsKey(((IPEndPoint)sock.RemoteEndPoint).Address)){
+					    this.connections.Add(((IPEndPoint)sock.RemoteEndPoint).Address, conn);
+					    this.updateConnectionListeners(new ConnectionEvent(conn));
+                    }
 				} catch (IOException e) {
 					Server.getLogger().error(e.Message);
 				} catch (InvalidArgumentException e) {

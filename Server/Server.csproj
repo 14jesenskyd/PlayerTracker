@@ -60,7 +60,6 @@
   <ItemGroup>
     <Compile Include="playertrackerDataSet.cs">
       <DependentUpon>playertrackerDataSet.xsd</DependentUpon>
-      <SubType>Component</SubType>
     </Compile>
     <Compile Include="playertrackerDataSet.Designer.cs">
       <AutoGen>True</AutoGen>
