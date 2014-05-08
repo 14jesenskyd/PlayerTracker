@@ -50,7 +50,7 @@ namespace PlayerTracker.Server.Util {
 
 		private void run() {
 			this.thread = Thread.CurrentThread;
-			while (this.running)
+			while (this.running){
 				foreach (Connection c in Server.getSingleton().getConnectionManager().getConnections().Values) {
 					if (c.isClosed()) {
 						Server.getSingleton().getConnectionManager().getConnections().Remove(c.getAddress());
@@ -75,6 +75,8 @@ namespace PlayerTracker.Server.Util {
 							Server.getLogger().error(e.Message);
 						}
 				}
+				Thread.Sleep(35);
+			}
 		}
 	}
 }

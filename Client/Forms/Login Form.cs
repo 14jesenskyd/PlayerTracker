@@ -25,7 +25,7 @@ namespace PlayerTracker.Client.Forms {
 			Client.getClient().getConnection().send(p);
             while (!Client.getClient().getRequestManager().hasResponse()) ;
             LoginResponsePacket r = (LoginResponsePacket)Client.getClient().getRequestManager().getResponse();
-            MessageBox.Show(r.getResponse().ToString());
+            MessageBox.Show(r.getResponse().getResponse().ToString());
 		}
 
 		private void btnExit_Click(object sender, EventArgs e) {

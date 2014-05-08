@@ -131,6 +131,7 @@ namespace PlayerTracker.Server.Util {
 				} catch (InvalidArgumentException e) {
 					Server.getLogger().error(e.Message);
 				}
+				Thread.Sleep(35);
 			}
 		}
 
@@ -163,10 +164,10 @@ namespace PlayerTracker.Server.Util {
 				if (connection != null && !connection.isClosed())
 					try {
 						connection.close();
-						this.getConnections().Remove(connection.getAddress());
 					} catch (IOException e) {
 						//ignore, likely already closed
 					}
+			this.getConnections().Clear();
 		}
 
 		public override string ToString() {

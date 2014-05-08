@@ -48,6 +48,7 @@ namespace PlayerTracker.Client.Util {
 				} catch (IOException e) {
 					Client.getLogger().error(e.Message);
 				}
+				Thread.Sleep(35);
 			}
 		}
 
