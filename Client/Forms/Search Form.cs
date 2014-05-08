@@ -24,5 +24,9 @@ namespace PlayerTracker.Client.Forms {
 			foreach(string s in ((ServerListResponsePacket)Client.getClient().getRequestManager().getResponse()).getServerList())
 			MessageBox.Show(s);
 		}
+
+		private void frmSearch_FormClosed(object sender, FormClosedEventArgs e) {
+			Client.getClient().stop();
+		}
 	}
 }

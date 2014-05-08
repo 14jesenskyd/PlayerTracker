@@ -35,6 +35,7 @@
 			this.Name = "frmSearch";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text = "Search People";
+			this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.frmSearch_FormClosed);
 			this.Load += new System.EventHandler(this.frmSearch_Load);
 			this.ResumeLayout(false);
 

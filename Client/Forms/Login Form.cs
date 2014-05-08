@@ -39,10 +39,7 @@ namespace PlayerTracker.Client.Forms {
 		}
 
         private void frmLogin_FormClosed(object sender, FormClosedEventArgs e) {
-            if (Client.getClient().getConnection() != null && !Client.getClient().getConnection().isClosed()) {
-                Client.getClient().getRequestManager().stop();
-                Client.getClient().getConnection().close();
-            }
+            Client.getClient().stop();
         }
 	}
 }

@@ -41,8 +41,10 @@ namespace PlayerTracker.Common.Net {
 				throw new InvalidPacketException("Packet header was too short.");
 			type = PacketType.getTypeFromHeader(header);
 
-			while (this.dataRemaining())
-				data.Add((byte)this.sock.Receive(buffer));
+			while (this.dataRemaining()){
+				this.sock.Receive(buffer);
+				data.Add(buffer[0]);
+			}
 
 			return new Packet(type, NetUtils.byteListToArray(data));
 		}
