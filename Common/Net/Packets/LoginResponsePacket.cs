@@ -70,6 +70,10 @@ namespace PlayerTracker.Common.Net.Packets {
 				return this.indicator;
 			}
 
+			public bool Equals(LoginResponse resp){
+				return resp.getResponse() == this.getResponse();
+			}
+
 			public override string ToString() {
 				return "LoginResponse[" + base.ToString() + "]";
 			}

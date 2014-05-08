@@ -102,7 +102,7 @@ namespace PlayerTracker.Common.Net.Packets {
 		public bool hasDataSection(int section) {
 			try {
 				this.getDataSection(section);
-			} catch (Exception e) {
+			} catch (Exception) {
 				//ignore exception
 				return false;
 			}

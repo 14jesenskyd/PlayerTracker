@@ -4,7 +4,7 @@ using System.Linq;
 using System.Windows.Forms;
 using PlayerTracker.Client.Forms;
 
-namespace PlayerTracker {
+namespace PlayerTracker.Client {
 	static class Program {
 		/// <summary>
 		/// The main entry point for the application.

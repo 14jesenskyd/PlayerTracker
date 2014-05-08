@@ -57,6 +57,7 @@
 			this.btnViewConnections.TabIndex = 3;
 			this.btnViewConnections.Text = "View all...";
 			this.btnViewConnections.UseVisualStyleBackColor = true;
+			this.btnViewConnections.Visible = false;
 			this.btnViewConnections.Click += new System.EventHandler(this.btnViewConnections_Click);
 			// 
 			// label1
@@ -67,6 +68,7 @@
 			this.label1.Size = new System.Drawing.Size(114, 13);
 			this.label1.TabIndex = 2;
 			this.label1.Text = "Current connections: 0";
+			this.label1.Visible = false;
 			// 
 			// btnConfigure
 			// 

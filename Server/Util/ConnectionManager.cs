@@ -164,7 +164,7 @@ namespace PlayerTracker.Server.Util {
 				if (connection != null && !connection.isClosed())
 					try {
 						connection.close();
-					} catch (IOException e) {
+					} catch (IOException) {
 						//ignore, likely already closed
 					}
 			this.getConnections().Clear();

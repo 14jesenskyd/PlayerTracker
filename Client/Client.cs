@@ -16,6 +16,7 @@ namespace PlayerTracker.Client {
 		private Connection connection;
 		private RequestManager requestMan;
 		private IPEndPoint iep;
+		private string user;
 
 		private Client() {
 			this.logger = new Logger("log.log");
@@ -30,6 +31,14 @@ namespace PlayerTracker.Client {
 
 		public static Logger getLogger() {
 			return getClient()._getLogger();
+		}
+
+		public string getUser(){
+			return this.user;
+		}
+
+		public void setUser(string user){
+			this.user = user;
 		}
 
 		public static Client getClient() {
@@ -62,6 +71,13 @@ namespace PlayerTracker.Client {
 
 		public override string ToString() {
 			return "Client[connected=" + this.connection.isClosed() + "]";
+		}
+
+		public void stop() {
+			if (Client.getClient().getConnection() != null && !Client.getClient().getConnection().isClosed()) {
+				Client.getClient().getRequestManager().stop();
+				Client.getClient().getConnection().close();
+			}
 		}
 	}
 }

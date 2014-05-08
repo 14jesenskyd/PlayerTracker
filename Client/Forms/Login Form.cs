@@ -25,7 +25,13 @@ namespace PlayerTracker.Client.Forms {
 			Client.getClient().getConnection().send(p);
             while (!Client.getClient().getRequestManager().hasResponse()) ;
             LoginResponsePacket r = (LoginResponsePacket)Client.getClient().getRequestManager().getResponse();
-            MessageBox.Show(r.getResponse().getResponse().ToString());
+			if(r.getResponse().Equals(LoginResponsePacket.LoginResponse.SUCCESS)){
+				this.Hide();
+				Client.getClient().setUser(txtUsername.Text);
+				new frmSearch().ShowDialog();
+			}else{
+				MessageBox.Show("Invalid username or password.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+			}
 		}
 
 		private void btnExit_Click(object sender, EventArgs e) {

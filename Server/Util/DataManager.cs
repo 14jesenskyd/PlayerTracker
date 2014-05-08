@@ -68,6 +68,8 @@ namespace PlayerTracker.Server.Util {
 									UserViolationLevel vl = null;
 									//TODO query db for information on player
 									response = new DataResponsePacket(name, notes, violations, vl);
+								}else if(p.getType().Equals(PacketType.LIST_REQUEST)){
+									response = new ServerListResponsePacket(new string[] { "one", "two", "three" });
 								}
 								response.sendData(c);
 							}

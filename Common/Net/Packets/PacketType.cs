@@ -47,6 +47,8 @@ namespace PlayerTracker.Common.Net.Packets {
 				yield return LOGIN_RESPONSE;
 				yield return FETCH_DATA;
 				yield return DATA_RESPONSE;
+				yield return LIST_REQUEST;
+				yield return LIST_RESPONSE;
 			}
 		}
 
@@ -54,6 +56,7 @@ namespace PlayerTracker.Common.Net.Packets {
 		public static readonly PacketType LOGIN_RESPONSE = new PacketType(new byte[] { 0x1, 0x0, 0x2 });
 		public static readonly PacketType FETCH_DATA = new PacketType(new byte[] { 0x1, 0x0, 0x3 });
 		public static readonly PacketType DATA_RESPONSE = new PacketType(new byte[] { 0x1, 0x0, 0x4 });
-
+		public static readonly PacketType LIST_REQUEST = new PacketType(new byte[] { 0x1, 0x0, 0x5 });
+		public static readonly PacketType LIST_RESPONSE = new PacketType(new byte[] { 0x1, 0x0, 0x6 });
 	}
 }
