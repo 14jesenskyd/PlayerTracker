@@ -11,6 +11,10 @@ namespace PlayerTracker.Common.Net.Packets {
 			: base(PacketType.LIST_RESPONSE, getBytesFromData(servers)) {
 		}
 
+		public ServerListResponsePacket(List<string> servers)
+			: base(PacketType.LIST_RESPONSE, getBytesFromData(servers.ToArray())) {
+		}
+
 		public ServerListResponsePacket(Packet p) : base(p){
 		}
 

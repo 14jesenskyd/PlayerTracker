@@ -36,5 +36,9 @@ namespace PlayerTracker.Common.Util {
 		public byte getByteIdentity() {
 			return this.ident;
 		}
+
+		public bool Equals(UserViolationLevel vl){
+			return this.ident == vl.ident;
+		}
 	}
 }

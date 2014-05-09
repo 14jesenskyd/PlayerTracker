@@ -22,11 +22,23 @@ namespace PlayerTracker.Client.Forms {
 			p.sendData(Client.getClient().getConnection());
 			while(!Client.getClient().getRequestManager().hasResponse());
 			foreach(string s in ((ServerListResponsePacket)Client.getClient().getRequestManager().getResponse()).getServerList())
-			MessageBox.Show(s);
+				this.lstServer.Items.Add(s);
 		}
 
 		private void frmSearch_FormClosed(object sender, FormClosedEventArgs e) {
 			Client.getClient().stop();
+		}
+
+		private void btnExit_Click(object sender, EventArgs e) {
+			this.Close();
+		}
+
+		private void btnSearch_Click(object sender, EventArgs e) {
+			FetchPacket packet = new FetchPacket(this.txtPlayer.Text, (string)this.lstServer.SelectedItem);
+			packet.sendData(Client.getClient().getConnection());
+			while(!Client.getClient().getRequestManager().hasResponse());
+			DataResponsePacket p = (DataResponsePacket)Client.getClient().getRequestManager().getResponse();
+			new frmPlayerInformation(p.getName(), p.getServer(), p.getNotes(), p.getViolations(), p.getViolationLevel()).ShowDialog();
 		}
 	}
 }

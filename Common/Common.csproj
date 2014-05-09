@@ -40,6 +40,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Net\Packets\DataUpdatePacket.cs" />
+    <Compile Include="Net\Packets\RegistrationPacket.cs" />
     <Compile Include="Net\Packets\ServerListRequestPacket.cs" />
     <Compile Include="Net\Packets\ServerListResponsePacket.cs" />
     <Compile Include="Util\Configuration.cs" />
