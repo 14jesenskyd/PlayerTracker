@@ -30,13 +30,13 @@ USE `playertracker`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `players` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL auto_increment,
   `serverId` int(11) NOT NULL,
-  `name` text NOT NULL,
+  `playerName` text(35) NOT NULL,
   `notes` text NOT NULL,
   `violations` text NOT NULL,
   `violationLevel` tinyint(4) NOT NULL,
-  PRIMARY KEY (`id`),
+  PRIMARY KEY (`id`,`serverId`,`playerName`(35)),
   KEY `players` (`serverId`),
   CONSTRAINT `players_ibfk_1` FOREIGN KEY (`serverId`) REFERENCES `servers` (`serverId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -53,7 +53,7 @@ CREATE TABLE `screenshots` (
   `serverId` int(11) NOT NULL,
   `data` blob NOT NULL,
   KEY `screenshots` (`serverId`),
-  KEY `a` (`playerId`),
+  KEY `players` (`playerId`),
   CONSTRAINT `screenshots_ibfk_2` FOREIGN KEY (`playerId`) REFERENCES `players` (`id`),
   CONSTRAINT `screenshots_ibfk_1` FOREIGN KEY (`serverId`) REFERENCES `servers` (`serverId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -66,7 +66,7 @@ CREATE TABLE `screenshots` (
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `servers` (
-  `serverId` int(11) NOT NULL,
+  `serverId` int(11) NOT NULL auto_increment,
   `serverName` text NOT NULL,
   PRIMARY KEY (`serverId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

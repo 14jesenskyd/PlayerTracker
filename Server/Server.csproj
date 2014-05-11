@@ -120,7 +120,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <None Include="tables.mysql" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Observers\" />
@@ -130,6 +129,9 @@
       <Project>{C7D6EC30-A212-471A-A6DC-D88262A8B459}</Project>
       <Name>Common</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="tables.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

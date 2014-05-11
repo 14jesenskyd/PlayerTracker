@@ -69,11 +69,13 @@ namespace PlayerTracker.Server.Util {
 									if(reader.Read()){
 										response = new DataResponsePacket(reader.GetString("playerName"), packet.getServer(), reader.GetString("notes"), reader.GetString("violations"), UserViolationLevel.getViolationLevelFromByte(reader.GetByte("violationLevel")), reader.GetInt32("id").ToString());
 									}else{
-										//todo define z, needs to be player id.
-										response = new DataResponsePacket(packet.getName(), packet.getServer(), "", "", UserViolationLevel.GOOD, z.getInt32("id"));
-										MySqlDataReader r = Server.getSingleton().getDbManager().executeReader("select `serverId` from `servers` where `serverName`=\"" + packet.getServer() + "\"");
-										r.Read();
-										Server.getSingleton().getDbManager().executeNonQuery("insert into `players` (`serverId`, `playerName`, `notes`, `violations`, `violationLevel`) values("+r.GetInt32("serverId")+", \""+packet.getServer()+"\", \"\", \"\", "+UserViolationLevel.GOOD.getByteIdentity()+")");
+
+                                        MySqlDataReader r = Server.getSingleton().getDbManager().executeReader("select `serverId` from `servers` where `serverName`=\"" + packet.getServer() + "\"");
+                                        r.Read();
+                                        Server.getSingleton().getDbManager().executeNonQuery("insert into `players` (`serverId`, `playerName`, `notes`, `violations`, `violationLevel`) values(" + r.GetInt32("serverId") + ", \"" + packet.getName() + "\", \"\", \"\", " + UserViolationLevel.GOOD.getByteIdentity() + ")");
+                                        MySqlDataReader z = Server.getSingleton().getDbManager().executeReader("select `id` from `players` where `serverId`="+r.GetInt32("serverId")+" and `playerName`=\""+packet.getName()+"\"");
+                                        z.Read();
+										response = new DataResponsePacket(packet.getName(), packet.getServer(), "", "", UserViolationLevel.GOOD, z.GetInt32("id").ToString());
 										r.Close();
 									}
 									reader.Close();

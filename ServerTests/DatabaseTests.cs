@@ -12,7 +12,6 @@ namespace ServerTests {
 		public void TestConnection() {
 			DatabaseManager dbman = new DatabaseManager("127.0.0.1", 3306, "root", "root", "playertracker");
 			dbman.connect();
-			
 		}
 	}
 }

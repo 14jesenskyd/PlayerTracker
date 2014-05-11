@@ -12,17 +12,22 @@ using PlayerTracker.Common.Util;
 
 namespace PlayerTracker.Client.Forms {
 	public partial class frmPlayerInformation : Form {
-		public frmPlayerInformation(string name, string server, string notes, string violations, UserViolationLevel vl) {
+        private string id;
+
+		public frmPlayerInformation(string name, string server, string notes, string violations, UserViolationLevel vl, string id) {
 			InitializeComponent();
 			this.txtNotes.Text = notes;
 			this.txtInfractions.Text = violations;
 			this.setViolationLevel(vl);
 			this.lblPlayer.Text = name;
 			this.lblServer.Text = server;
+            this.id = id;
 		}
 
 		private void btnSave_Click(object sender, EventArgs e) {
-			
+            DataUpdatePacket p = new DataUpdatePacket(this.lblPlayer.Text, this.lblServer.Text, this.txtNotes.Text, this.txtInfractions.Text, this.getViolationLevel(), this.id);
+            p.sendData(Client.getClient().getConnection());
+            this.Close();
 		}
 
 		private void btnDelete_Click(object sender, EventArgs e) {

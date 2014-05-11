@@ -63,7 +63,7 @@ namespace PlayerTracker.Common.Net.Packets {
 		}
 
 		public string getID() {
-			return base.getDataSection(5);
+			return NetUtils.bytesToString(base.getDataSection(5));
 		}
 	}
 }

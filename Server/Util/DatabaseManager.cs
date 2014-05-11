@@ -33,18 +33,26 @@ namespace PlayerTracker.Server.Util {
 		}
 
 		public object executeScalar(string sql) {
+            this.reconnect();
 			MySqlCommand command = new MySqlCommand(sql, this.connection);
 			return command.ExecuteScalar();
 		}
 
 		public int executeNonQuery(string sql) {
+            this.reconnect();
 			MySqlCommand command = new MySqlCommand(sql, this.connection);
 			return command.ExecuteNonQuery();
 		}
 
 		public MySqlDataReader executeReader(string sql) {
+            this.reconnect();
 			MySqlCommand command = new MySqlCommand(sql, this.connection);
 			return command.ExecuteReader();
 		}
+
+        private void reconnect() {
+            if (this.connection.State != System.Data.ConnectionState.Open)
+                this.connect();
+        }
 	}
 }
