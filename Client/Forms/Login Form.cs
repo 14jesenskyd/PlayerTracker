@@ -41,5 +41,9 @@ namespace PlayerTracker.Client.Forms {
         private void frmLogin_FormClosed(object sender, FormClosedEventArgs e) {
             Client.getClient().stop();
         }
+
+        private void btnConfigure_Click(object sender, EventArgs e) {
+
+        }
 	}
 }
