@@ -10,23 +10,19 @@ using PlayerTracker.Common.Net;
 using PlayerTracker.Client.Util;
 
 namespace PlayerTracker.Client {
-	class Client {
+    class Client {
+        public const string CONFIG_FILE = "client.cfg";
 		private static Client client = null;
 		private Logger logger;
 		private Connection connection;
 		private RequestManager requestMan;
 		private IPEndPoint iep;
 		private string user;
+        private Configuration config;
 
 		private Client() {
 			this.logger = new Logger("log.log");
-			Configuration c = Configuration.load("config.cfg");
-			string ipstring = c.getValue<string>("serverhost", "127.0.0.1");
-			byte[] ip = new byte[ipstring.Split('.').Length];
-			int i = 0;
-			foreach (string s in ipstring.Split('.'))
-				ip[i++] = byte.Parse(s);
-			this.iep = new IPEndPoint(new IPAddress(ip), c.getValue<int>("serverport", 1534));
+            this.config = null;
 		}
 
 		public static Logger getLogger() {
@@ -51,7 +47,16 @@ namespace PlayerTracker.Client {
 			return Client.client;
 		}
 
-		public void connect() {
+        public void connect() {
+
+            Server server = this.getConfiguration().getValue<Server>("activeServer", new Server("127.0.0.1", 1534));
+            string ipstring = server.Host;
+            byte[] ip = new byte[ipstring.Split('.').Length];
+            int i = 0;
+            foreach (string s in ipstring.Split('.'))
+                ip[i++] = byte.Parse(s);
+            this.iep = new IPEndPoint(new IPAddress(ip), server.Port);
+
 			this.connection = new Connection(this.iep);
 			this.requestMan = new RequestManager();
 			this.requestMan.start();
@@ -79,5 +84,15 @@ namespace PlayerTracker.Client {
 				Client.getClient().getConnection().close();
 			}
 		}
+
+        public Configuration getConfiguration() {
+            if (this.config == null)
+                this.config = Configuration.load(CONFIG_FILE);
+            return this.config;
+        }
+
+        public void setConfiguration(Configuration config) {
+            this.config = config;
+        }
 	}
 }

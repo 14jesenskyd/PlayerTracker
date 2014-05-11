@@ -43,7 +43,7 @@ namespace PlayerTracker.Client.Forms {
         }
 
         private void btnConfigure_Click(object sender, EventArgs e) {
-
+            new frmConfiguration().ShowDialog();
         }
 	}
 }

@@ -97,9 +97,22 @@
     <Compile Include="Forms\Search Form.Designer.cs">
       <DependentUpon>Search Form.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\Server Selection Form.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Server Selection Form.Designer.cs">
+      <DependentUpon>Server Selection Form.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Server Properties Form.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Server Properties Form.Designer.cs">
+      <DependentUpon>Server Properties Form.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Util\RequestManager.cs" />
+    <Compile Include="Util\Server.cs" />
     <EmbeddedResource Include="Forms\Configuration Form.resx">
       <DependentUpon>Configuration Form.cs</DependentUpon>
     </EmbeddedResource>
@@ -111,6 +124,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Search Form.resx">
       <DependentUpon>Search Form.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Server Selection Form.resx">
+      <DependentUpon>Server Selection Form.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Server Properties Form.resx">
+      <DependentUpon>Server Properties Form.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
