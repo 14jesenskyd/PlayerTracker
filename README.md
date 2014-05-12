@@ -38,3 +38,5 @@ Required Software
 
 ###Server
 - Does not close correctly; will hang. Process must be stopped manually from the task manager.
+- Connections might not drop properly if not closed manually, i.e. might not be removed from connection list if network adapter is disabled.
+- Does not use a UUID (didn't have time to implement); multiple connections on a computer or network with the same external IP will use the last connected user's permissions.
