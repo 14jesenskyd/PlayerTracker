@@ -11,7 +11,8 @@ using PlayerTracker.Common.Util;
 using PlayerTracker.Common.Exceptions;
 
 namespace PlayerTracker.Client.Util {
-	class RequestManager {
+    class RequestManager {
+        private const int SLEEP_DURATION = 35;
 		private Queue<Packet> responses;
 		private bool accepting;
 		private Thread thread;
@@ -50,7 +51,7 @@ namespace PlayerTracker.Client.Util {
 				} catch (IOException e) {
 					Client.getLogger().error(e.Message);
 				}
-				Thread.Sleep(35);
+				Thread.Sleep(SLEEP_DURATION);
 			}
 		}
 

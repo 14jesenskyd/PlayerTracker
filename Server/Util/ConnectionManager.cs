@@ -14,6 +14,7 @@ using System.Threading;
 
 namespace PlayerTracker.Server.Util {
 	public class ConnectionManager {
+        private const int SLEEP_DURATION = 35;
 		private Dictionary<IPAddress, Connection> connections;
 		private Socket socket;
 		private IPEndPoint iep;
@@ -30,18 +31,21 @@ namespace PlayerTracker.Server.Util {
 		/// thread-safety with whatever actions they may perform.
 		public ConnectionManager(int port, String host = null) {
 			this.connections = new Dictionary<IPAddress, Connection>();
-			byte[] b = new byte[host.Split('.').Length];
-			int i = 0;
-			if (host != null) {
-				foreach (string s in host.Split('.'))
-					b[i++] = byte.Parse(s);
-				IPAddress ip = new IPAddress(b);
-				this.iep = new IPEndPoint(ip, port);
-			} else
-				this.iep = new IPEndPoint(new IPAddress(new byte[] { 127, 0, 0, 1 }), 1534);
+            this.setIEP(port, host);
 			this.listeners = new List<ConnectionListener>();
 			this.accepting = true;
 		}
+
+        public void setIEP(int port, string host = null) {
+            byte[] b = new byte[host.Split('.').Length];
+            int i = 0;
+            if (host != null) {
+                foreach (string s in host.Split('.'))
+                    b[i++] = byte.Parse(s);
+                this.iep = new IPEndPoint(new IPAddress(b), port);
+            } else
+                this.iep = new IPEndPoint(new IPAddress(new byte[] { 127, 0, 0, 1 }), 1534);
+        }
 
 		/**
 		 * Gets all of the currently live connections to the {@code Server}
@@ -130,8 +134,9 @@ namespace PlayerTracker.Server.Util {
 					Server.getLogger().error(e.Message);
 				} catch (InvalidArgumentException e) {
 					Server.getLogger().error(e.Message);
-				}
-				Thread.Sleep(35);
+                } catch (SocketException) {
+                }
+				Thread.Sleep(SLEEP_DURATION);
 			}
 		}
 
@@ -155,8 +160,8 @@ namespace PlayerTracker.Server.Util {
 
 		public void stop() {
 			this.accepting = false;
-			this.thread.Abort();
 			this.socket.Close();
+			this.thread.Abort();
 		}
 
 		public void closeConnections() {

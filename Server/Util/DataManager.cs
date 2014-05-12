@@ -13,6 +13,7 @@ using MySql.Data.MySqlClient;
 
 namespace PlayerTracker.Server.Util {
 	public class DataManager {
+        private const int SLEEP_DURATION = 35;
 		private List<DataTransmissionListener> listeners;
 		private bool running;
 		private Thread thread;
@@ -103,7 +104,7 @@ namespace PlayerTracker.Server.Util {
 							Server.getLogger().error(e.Message);
 						}
 				}
-				Thread.Sleep(35);
+				Thread.Sleep(SLEEP_DURATION);
 			}
 		}
 	}

@@ -26,7 +26,7 @@ namespace PlayerTracker.Server.Forms {
 		}
 
 		private void btnConfigure_Click(object sender, EventArgs e) {
-
+            new frmConfiguration().ShowDialog();
 		}
 
 		private void frmServer_FormClosed(object sender, FormClosedEventArgs e) {

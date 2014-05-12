@@ -24,7 +24,7 @@ namespace PlayerTracker.Server.Util {
 		}
 
 		public void connect() {
-			this.connection = new MySqlConnection("Server=" + this.host + ";Port=" + this.port + ";Database=" + this.db + ";UID=" + this.username + ";Password=" + this.password + ";SslMode=Preferred;");
+			this.connection = new MySqlConnection("Server=" + this.host + ";Port=" + this.port + ";UID=" + this.username + ";Password=" + this.password + ";SslMode=Preferred;Database="+this.db);
 			this.connection.Open();
 		}
 
