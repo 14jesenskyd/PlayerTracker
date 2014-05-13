@@ -7,8 +7,8 @@ using System.IO;
 
 namespace PlayerTracker.Common.Net.Packets {
 	public class Packet {
-		private PacketType type;
-		private byte[] data;
+		private readonly PacketType type;
+		protected readonly byte[] data;
 
 		public Packet(PacketType type, params byte[] data) {
 			this.type = type;
@@ -63,7 +63,7 @@ namespace PlayerTracker.Common.Net.Packets {
 		 * @return The bytes between the endpoints of the specified
 		 * {@code section}.
 		 */
-		public byte[] getDataSection(int section) {
+		public virtual byte[] getDataSection(int section) {
 			List<Byte> r = new List<Byte>();
 			int iteration = 0, index = 0;
 			bool t = true;

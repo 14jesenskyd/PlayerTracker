@@ -40,10 +40,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Net\Packets\AbstractAttachmentPacket.cs" />
+    <Compile Include="Net\Packets\AttachmentListRequestPacket.cs" />
+    <Compile Include="Net\Packets\AttachmentListResponsePacket.cs" />
+    <Compile Include="Net\Packets\AttachmentResponsePacket.cs" />
     <Compile Include="Net\Packets\DataUpdatePacket.cs" />
+    <Compile Include="Net\Packets\AttachmentRequestPacket.cs" />
     <Compile Include="Net\Packets\RegistrationPacket.cs" />
     <Compile Include="Net\Packets\ServerListRequestPacket.cs" />
     <Compile Include="Net\Packets\ServerListResponsePacket.cs" />
+    <Compile Include="Net\Packets\UploadAttachmentPacket.cs" />
+    <Compile Include="Util\Attachment.cs" />
     <Compile Include="Util\Configuration.cs" />
     <Compile Include="Exceptions\InvalidArgumentException.cs" />
     <Compile Include="Exceptions\InvalidPacketException.cs" />

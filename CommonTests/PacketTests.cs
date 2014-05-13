@@ -3,6 +3,8 @@ using System.Text;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using PlayerTracker.Common.Util;
+using PlayerTracker.Common.Net.Packets;
 
 namespace CommonTests {
 	/// <summary>
@@ -54,7 +56,31 @@ namespace CommonTests {
 		#endregion
 
 		[TestMethod]
-		public void TestPacket() {
+		public void TestDT() {
+			DateTime a = DateTime.Now;
+			DateTime b = DateTime.Parse(a.ToShortDateString() + " " + a.ToLongTimeString());
+			Assert.AreEqual<string>(a.ToShortDateString() + " " + a.ToLongTimeString(), b.ToShortDateString() + " " + b.ToLongTimeString());
+		}
+
+		[TestMethod]
+		public void TestALRPacket() {
+			List<Attachment> l = new List<Attachment>();
+			DateTime t = DateTime.Now;
+			DateTime t2;
+			AttachmentListResponsePacket packet;
+			List<Attachment> z;
+			System.Threading.Thread.Sleep(10000);
+			t2 = DateTime.Now;
+
+			l.Add(new Attachment(t, "1"));
+			l.Add(new Attachment(t2, "2"));
+			packet = new AttachmentListResponsePacket(l);
+
+			z = packet.getAttachments();
+			Assert.AreEqual(l.Count, z.Count);
+			for (int i = 0; i < l.Count; i++) {
+				Assert.IsTrue(z[i].Equals(l[i]));
+			}
 		}
 	}
 }

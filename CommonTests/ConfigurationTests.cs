@@ -10,8 +10,8 @@ namespace CommonTests {
 	public class ConfigurationTests {
 		[TestMethod]
 		public void TestSaveLoad() {
-			Configuration c = new Configuration();
 			const string file = "test.cfg";
+			Configuration c = new Configuration();
 			c.setValue<String>("1", "asdf");
 			Configuration.save(file, c);
 			c = null;

@@ -52,6 +52,11 @@ namespace PlayerTracker.Common.Net.Packets {
 				yield return REGISTRATION;
 				yield return REGISTRATION_RESPONSE;
 				yield return DATA_UPDATE;
+				yield return ATTACHMENT_LIST_REQ;
+				yield return ATTACHMENT_LIST_RESP;
+				yield return ATTACHMENT_REQUEST;
+				yield return ATTACHMENT_RESPONSE;
+				yield return UPLOAD_ATTACHMENT;
 			}
 		}
 
@@ -64,5 +69,10 @@ namespace PlayerTracker.Common.Net.Packets {
 		public static readonly PacketType REGISTRATION = new PacketType(new byte[] { 0x1, 0x0, 0x7 });
 		public static readonly PacketType REGISTRATION_RESPONSE = new PacketType(new byte[] { 0x1, 0x0, 0x8 });
 		public static readonly PacketType DATA_UPDATE = new PacketType(new byte[] { 0x1, 0x0, 0x9 });
+		public static readonly PacketType ATTACHMENT_LIST_REQ = new PacketType(new byte[] { 0x1, 0x0, 0xA });
+		public static readonly PacketType ATTACHMENT_LIST_RESP = new PacketType(new byte[] { 0x1, 0x0, 0xB });
+		public static readonly PacketType ATTACHMENT_REQUEST = new PacketType(new byte[] { 0x1, 0x0, 0xC });
+		public static readonly PacketType ATTACHMENT_RESPONSE = new PacketType(new byte[] { 0x1, 0x0, 0xD });
+		public static readonly PacketType UPLOAD_ATTACHMENT = new PacketType(new byte[] { 0x1, 0x0, 0xE });
 	}
 }

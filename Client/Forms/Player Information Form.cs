@@ -61,5 +61,23 @@ namespace PlayerTracker.Client.Forms {
 				this.radBanned.Checked = true;
 			}
 		}
+
+		private void btnRefresh_Click(object sender, EventArgs e) {
+
+		}
+
+		private void btnBrowse_Click(object sender, EventArgs e) {
+
+		}
+
+		private void btnUpload_Click(object sender, EventArgs e) {
+
+		}
+
+		private void playerData_SelectedIndexChanged(object sender, EventArgs e) {
+			if (playerData.SelectedIndex == 1) {
+
+			}
+		}
 	}
 }
