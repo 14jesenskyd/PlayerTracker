@@ -26,7 +26,8 @@ namespace PlayerTracker.Common.Net.Packets {
 					bytes.Add(b);
 				bytes.Add(0x0);
 			}
-			bytes.RemoveAt(bytes.Count-1);
+			if(bytes.Count > 1)
+				bytes.RemoveAt(bytes.Count-1);
 
 			return NetUtils.byteListToArray(bytes);
 		}
@@ -36,7 +37,7 @@ namespace PlayerTracker.Common.Net.Packets {
 			int i = 0;
 
 			while (base.hasDataSection(i)) {
-				a.Add(new Attachment(DateTime.Parse(NetUtils.bytesToString(base.getDataSection(i++))), NetUtils.bytesToString(base.getDataSection(i++))));
+				a.Add(new Attachment(DateTime.Parse(NetUtils.bytesToString(base.getDataSection(i++))), NetUtils.bytesToString(base.getDataSection(i++)), NetUtils.bytesToString(base.getDataSection(2))));
 			}
 
 			return a;

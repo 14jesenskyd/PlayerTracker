@@ -25,5 +25,13 @@ namespace PlayerTracker.Common.Net.Packets {
 
 			return NetUtils.byteListToArray(bytes);
 		}
+
+		public string getPlayerId() {
+			return NetUtils.bytesToString(base.getDataSection(0));
+		}
+
+		public string getServerId() {
+			return NetUtils.bytesToString(base.getDataSection(1));
+		}
 	}
 }

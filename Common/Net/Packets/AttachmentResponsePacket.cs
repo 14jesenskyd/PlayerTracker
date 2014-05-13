@@ -4,9 +4,13 @@ using System.Linq;
 using System.Text;
 
 namespace PlayerTracker.Common.Net.Packets {
-	class AttachmentResponsePacket : AbstractAttachmentPacket {
-		public AttachmentResponsePacket(string playerId, string serverId, byte[] data)
-			: base(PacketType.ATTACHMENT_RESPONSE, playerId, serverId, data){
+	public class AttachmentResponsePacket : AbstractAttachmentPacket {
+		public AttachmentResponsePacket(byte[] data)
+			: base(PacketType.ATTACHMENT_RESPONSE, "", "", "", data) {
+		}
+
+		public AttachmentResponsePacket(string blobstring)
+			: base(PacketType.ATTACHMENT_RESPONSE, "", "", "", NetUtils.stringToBytes(blobstring)) {
 		}
 
 		public AttachmentResponsePacket(Packet p)

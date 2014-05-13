@@ -68,16 +68,18 @@ namespace PlayerTracker.Server.Util {
 									FetchPacket packet = new FetchPacket(p);
 									MySqlDataReader reader = Server.getSingleton().getDbManager().executeReader("select * from `players` where `serverId`=(select `serverId` from `servers` where `serverName`=\""+packet.getServer()+"\") and `playerName` like \""+packet.getName()+"\";");
 									if(reader.Read()){
-										response = new DataResponsePacket(reader.GetString("playerName"), packet.getServer(), reader.GetString("notes"), reader.GetString("violations"), UserViolationLevel.getViolationLevelFromByte(reader.GetByte("violationLevel")), reader.GetInt32("id").ToString());
+										response = new DataResponsePacket(reader.GetString("playerName"), packet.getServer(), reader.GetString("notes"), reader.GetString("violations"), UserViolationLevel.getViolationLevelFromByte(reader.GetByte("violationLevel")), reader.GetInt32("id").ToString(), reader.GetInt32("serverId").ToString());
 									}else{
-
+										reader.Close();
                                         MySqlDataReader r = Server.getSingleton().getDbManager().executeReader("select `serverId` from `servers` where `serverName`=\"" + packet.getServer() + "\"");
                                         r.Read();
-                                        Server.getSingleton().getDbManager().executeNonQuery("insert into `players` (`serverId`, `playerName`, `notes`, `violations`, `violationLevel`) values(" + r.GetInt32("serverId") + ", \"" + packet.getName() + "\", \"\", \"\", " + UserViolationLevel.GOOD.getByteIdentity() + ")");
-                                        MySqlDataReader z = Server.getSingleton().getDbManager().executeReader("select `id` from `players` where `serverId`="+r.GetInt32("serverId")+" and `playerName`=\""+packet.getName()+"\"");
-                                        z.Read();
-										response = new DataResponsePacket(packet.getName(), packet.getServer(), "", "", UserViolationLevel.GOOD, z.GetInt32("id").ToString());
+										int serverId = r.GetInt32("serverId");
 										r.Close();
+                                        Server.getSingleton().getDbManager().executeNonQuery("insert into `players` (`serverId`, `playerName`, `notes`, `violations`, `violationLevel`) values(" + serverId + ", \"" + packet.getName() + "\", \"\", \"\", " + UserViolationLevel.GOOD.getByteIdentity() + ")");
+                                        MySqlDataReader z = Server.getSingleton().getDbManager().executeReader("select `id`,`serverId` from `players` where `serverId`="+serverId+" and `playerName`=\""+packet.getName()+"\"");
+                                        z.Read();
+										response = new DataResponsePacket(packet.getName(), packet.getServer(), "", "", UserViolationLevel.GOOD, z.GetInt32("id").ToString(), z.GetInt32("serverId").ToString());
+										z.Close();
 									}
 									reader.Close();
 								}else if(p.getType().Equals(PacketType.LIST_REQUEST)){
@@ -96,6 +98,24 @@ namespace PlayerTracker.Server.Util {
 								}else if(p.getType().Equals(PacketType.DATA_UPDATE)){
 									DataUpdatePacket packet = new DataUpdatePacket(p);
 									Server.getSingleton().getDbManager().executeNonQuery("update `players` set `playerName`=\""+packet.getPlayer()+"\", `notes`=\""+packet.getNotes()+"\", `violations`=\""+packet.getViolations()+"\", `violationLevel`="+packet.getViolationLevel().getByteIdentity()+" where `id`="+packet.getID()+";");
+								}else if(p.getType().Equals(PacketType.ATTACHMENT_LIST_REQ)){
+									AttachmentListRequestPacket packet = new AttachmentListRequestPacket(p);
+									List<Attachment> attachments = new List<Attachment>();
+									MySqlDataReader r = Server.getSingleton().getDbManager().executeReader("select `screenshotId`,`uploadDate`,`uploadingUserId` from `screenshots` where `playerId`="+packet.getPlayerId()+" and `serverId`="+packet.getServerId());
+									while(r.Read()){
+										attachments.Add(new Attachment(r.GetDateTime("uploadDate"), r.GetInt32("screenshotId").ToString(), r.GetInt32("uploadingUserId").ToString()));
+									}
+									response = new AttachmentListResponsePacket(attachments);
+									r.Close();
+								}else if(p.getType().Equals(PacketType.UPLOAD_ATTACHMENT)){
+									UploadAttachmentPacket packet = new UploadAttachmentPacket(p);
+									Server.getSingleton().getDbManager().executeNonQuery("insert into `screenshots` (`playerId`, `serverId`, `data`, `uploadDate`, `uploadingUserId`) values("+packet.getPlayerId()+", "+packet.getServerId()+", "+packet.getAttachmentData()+", "+DateTime.Now.ToShortDateString()+" "+DateTime.Now.ToLongTimeString()+", "+packet.getUserId()+")");
+								}else if(p.getType().Equals(PacketType.ATTACHMENT_REQUEST)){
+									AttachmentRequestPacket packet = new AttachmentRequestPacket(p);
+									MySqlDataReader r = Server.getSingleton().getDbManager().executeReader("select `data` from `screenshots` where `screenshotId`="+packet.getId());
+									r.Read();
+									response = new AttachmentResponsePacket(r.GetValue(0).ToString());
+									r.Close();
 								}
 								if(response != null)
 									response.sendData(c);

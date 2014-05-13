@@ -35,6 +35,7 @@
 			this.label2 = new System.Windows.Forms.Label();
 			this.label1 = new System.Windows.Forms.Label();
 			this.tabAttachments = new System.Windows.Forms.TabPage();
+			this.btnDownload = new System.Windows.Forms.Button();
 			this.txtPath = new System.Windows.Forms.TextBox();
 			this.label4 = new System.Windows.Forms.Label();
 			this.btnDeleteSS = new System.Windows.Forms.Button();
@@ -43,6 +44,7 @@
 			this.btnBrowse = new System.Windows.Forms.Button();
 			this.grdAttachments = new System.Windows.Forms.DataGridView();
 			this.screenshotId = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.UploadingUser = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.screenshotDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.btnSave = new System.Windows.Forms.Button();
 			this.btnDelete = new System.Windows.Forms.Button();
@@ -51,6 +53,8 @@
 			this.lblPlayer = new System.Windows.Forms.Label();
 			this.label5 = new System.Windows.Forms.Label();
 			this.lblServer = new System.Windows.Forms.Label();
+			this.open = new System.Windows.Forms.OpenFileDialog();
+			this.save = new System.Windows.Forms.SaveFileDialog();
 			this.playerData.SuspendLayout();
 			this.tabPlayerInfo.SuspendLayout();
 			this.grpStatus.SuspendLayout();
@@ -177,6 +181,7 @@
 			// 
 			// tabAttachments
 			// 
+			this.tabAttachments.Controls.Add(this.btnDownload);
 			this.tabAttachments.Controls.Add(this.txtPath);
 			this.tabAttachments.Controls.Add(this.label4);
 			this.tabAttachments.Controls.Add(this.btnDeleteSS);
@@ -192,17 +197,28 @@
 			this.tabAttachments.Text = "Attachments";
 			this.tabAttachments.UseVisualStyleBackColor = true;
 			// 
+			// btnDownload
+			// 
+			this.btnDownload.Location = new System.Drawing.Point(177, 150);
+			this.btnDownload.Name = "btnDownload";
+			this.btnDownload.Size = new System.Drawing.Size(109, 23);
+			this.btnDownload.TabIndex = 7;
+			this.btnDownload.Text = "Download Selected";
+			this.btnDownload.UseVisualStyleBackColor = true;
+			this.btnDownload.Click += new System.EventHandler(this.btnDownload_Click);
+			// 
 			// txtPath
 			// 
-			this.txtPath.Location = new System.Drawing.Point(91, 31);
+			this.txtPath.Location = new System.Drawing.Point(69, 31);
 			this.txtPath.Name = "txtPath";
-			this.txtPath.Size = new System.Drawing.Size(137, 20);
+			this.txtPath.Size = new System.Drawing.Size(209, 20);
 			this.txtPath.TabIndex = 6;
+			this.txtPath.Click += new System.EventHandler(this.txtPath_Click);
 			// 
 			// label4
 			// 
 			this.label4.AutoSize = true;
-			this.label4.Location = new System.Drawing.Point(41, 34);
+			this.label4.Location = new System.Drawing.Point(19, 34);
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(44, 13);
 			this.label4.TabIndex = 5;
@@ -210,18 +226,20 @@
 			// 
 			// btnDeleteSS
 			// 
-			this.btnDeleteSS.Location = new System.Drawing.Point(293, 150);
+			this.btnDeleteSS.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+			this.btnDeleteSS.Location = new System.Drawing.Point(331, 150);
 			this.btnDeleteSS.Name = "btnDeleteSS";
-			this.btnDeleteSS.Size = new System.Drawing.Size(97, 23);
+			this.btnDeleteSS.Size = new System.Drawing.Size(109, 23);
 			this.btnDeleteSS.TabIndex = 4;
 			this.btnDeleteSS.Text = "Delete Selected";
 			this.btnDeleteSS.UseVisualStyleBackColor = true;
+			this.btnDeleteSS.Click += new System.EventHandler(this.btnDeleteSS_Click);
 			// 
 			// btnRefresh
 			// 
-			this.btnRefresh.Location = new System.Drawing.Point(44, 150);
+			this.btnRefresh.Location = new System.Drawing.Point(22, 150);
 			this.btnRefresh.Name = "btnRefresh";
-			this.btnRefresh.Size = new System.Drawing.Size(97, 23);
+			this.btnRefresh.Size = new System.Drawing.Size(109, 23);
 			this.btnRefresh.TabIndex = 3;
 			this.btnRefresh.Text = "Refresh";
 			this.btnRefresh.UseVisualStyleBackColor = true;
@@ -229,7 +247,7 @@
 			// 
 			// btnUpload
 			// 
-			this.btnUpload.Location = new System.Drawing.Point(315, 29);
+			this.btnUpload.Location = new System.Drawing.Point(365, 29);
 			this.btnUpload.Name = "btnUpload";
 			this.btnUpload.Size = new System.Drawing.Size(75, 23);
 			this.btnUpload.TabIndex = 2;
@@ -239,7 +257,7 @@
 			// 
 			// btnBrowse
 			// 
-			this.btnBrowse.Location = new System.Drawing.Point(234, 29);
+			this.btnBrowse.Location = new System.Drawing.Point(284, 29);
 			this.btnBrowse.Name = "btnBrowse";
 			this.btnBrowse.Size = new System.Drawing.Size(75, 23);
 			this.btnBrowse.TabIndex = 1;
@@ -254,11 +272,12 @@
 			this.grdAttachments.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			this.grdAttachments.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.screenshotId,
+            this.UploadingUser,
             this.screenshotDate});
-			this.grdAttachments.Location = new System.Drawing.Point(44, 58);
+			this.grdAttachments.Location = new System.Drawing.Point(22, 58);
 			this.grdAttachments.Name = "grdAttachments";
 			this.grdAttachments.ReadOnly = true;
-			this.grdAttachments.Size = new System.Drawing.Size(346, 86);
+			this.grdAttachments.Size = new System.Drawing.Size(418, 86);
 			this.grdAttachments.TabIndex = 0;
 			// 
 			// screenshotId
@@ -266,7 +285,14 @@
 			this.screenshotId.HeaderText = "ID";
 			this.screenshotId.Name = "screenshotId";
 			this.screenshotId.ReadOnly = true;
-			this.screenshotId.Width = 150;
+			this.screenshotId.Width = 75;
+			// 
+			// UploadingUser
+			// 
+			this.UploadingUser.HeaderText = "uploadingUser";
+			this.UploadingUser.Name = "UploadingUser";
+			this.UploadingUser.ReadOnly = true;
+			this.UploadingUser.Width = 150;
 			// 
 			// screenshotDate
 			// 
@@ -287,6 +313,7 @@
 			// 
 			// btnDelete
 			// 
+			this.btnDelete.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
 			this.btnDelete.Location = new System.Drawing.Point(203, 280);
 			this.btnDelete.Name = "btnDelete";
 			this.btnDelete.Size = new System.Drawing.Size(89, 23);
@@ -393,13 +420,17 @@
 		private System.Windows.Forms.Label label5;
 		private System.Windows.Forms.Label lblServer;
 		private System.Windows.Forms.DataGridView grdAttachments;
-		private System.Windows.Forms.DataGridViewTextBoxColumn screenshotId;
-		private System.Windows.Forms.DataGridViewTextBoxColumn screenshotDate;
 		private System.Windows.Forms.Button btnUpload;
 		private System.Windows.Forms.Button btnBrowse;
 		private System.Windows.Forms.Button btnDeleteSS;
 		private System.Windows.Forms.Button btnRefresh;
 		private System.Windows.Forms.Label label4;
 		private System.Windows.Forms.TextBox txtPath;
+		private System.Windows.Forms.Button btnDownload;
+		private System.Windows.Forms.DataGridViewTextBoxColumn screenshotId;
+		private System.Windows.Forms.DataGridViewTextBoxColumn UploadingUser;
+		private System.Windows.Forms.DataGridViewTextBoxColumn screenshotDate;
+		private System.Windows.Forms.OpenFileDialog open;
+		private System.Windows.Forms.SaveFileDialog save;
 	}
 }

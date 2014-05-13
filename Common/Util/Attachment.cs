@@ -6,11 +6,19 @@ using System.Text;
 namespace PlayerTracker.Common.Util {
 	public class Attachment {
 		private DateTime datetime;
+		private string user;
 		private string id;
+		private DateTime dateTime;
+		private string p;
 
-		public Attachment(DateTime dt, string id){
+		public Attachment(DateTime dt, string id, string user){
 			this.id = id;
 			this.datetime = dt;
+			this.user = user;
+		}
+
+		public string getUploadingUser() {
+			return this.user;
 		}
 
 		public DateTime getDateTime() {

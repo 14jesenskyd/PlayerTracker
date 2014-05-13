@@ -5,10 +5,10 @@ using System.Text;
 
 namespace PlayerTracker.Common.Net.Packets {
 	public abstract class AbstractAttachmentPacket : Packet {
-		private const int DATA_SECTION = 2;
+		private const int DATA_SECTION = 3;
 
-		public AbstractAttachmentPacket(PacketType type, string playerId, string serverId, byte[] data) 
-			: base(type, getData(playerId, serverId, data)){
+		public AbstractAttachmentPacket(PacketType type, string playerId, string serverId, string userId, byte[] data) 
+			: base(type, getData(playerId, serverId, userId, data)){
 		}
 
 		public AbstractAttachmentPacket(Packet p)
@@ -27,7 +27,11 @@ namespace PlayerTracker.Common.Net.Packets {
 			return this.getDataSection(DATA_SECTION);
 		}
 
-		private static byte[] getData(string playerId, string serverId, byte[] data) {
+		public string getUserId(){
+			return NetUtils.bytesToString(base.getDataSection(2));
+		}
+
+		private static byte[] getData(string playerId, string serverId, string userId, byte[] data) {
 			List<byte> bytes = new List<byte>();
 
 			foreach (byte b in NetUtils.stringToBytes(playerId))
@@ -35,6 +39,10 @@ namespace PlayerTracker.Common.Net.Packets {
 			bytes.Add(0x0);
 
 			foreach (byte b in NetUtils.stringToBytes(serverId))
+				bytes.Add(b);
+			bytes.Add(0x0);
+
+			foreach (byte b in NetUtils.stringToBytes(userId))
 				bytes.Add(b);
 			bytes.Add(0x0);
 
@@ -55,7 +63,9 @@ namespace PlayerTracker.Common.Net.Packets {
 			bool t = true;
 
 			while (t) {
-				if (base.data[index] == 0)
+				if (index < base.data.Length)
+					break;
+				if(base.data[index] == 0)
 					iteration++;
 				if (iteration == section) {
 					if (section != 0)

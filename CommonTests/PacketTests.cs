@@ -72,8 +72,8 @@ namespace CommonTests {
 			System.Threading.Thread.Sleep(10000);
 			t2 = DateTime.Now;
 
-			l.Add(new Attachment(t, "1"));
-			l.Add(new Attachment(t2, "2"));
+			l.Add(new Attachment(t, "1", "-1"));
+			l.Add(new Attachment(t2, "2", "-1"));
 			packet = new AttachmentListResponsePacket(l);
 
 			z = packet.getAttachments();

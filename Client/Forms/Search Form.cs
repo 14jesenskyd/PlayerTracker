@@ -38,7 +38,7 @@ namespace PlayerTracker.Client.Forms {
 			packet.sendData(Client.getClient().getConnection());
 			while(!Client.getClient().getRequestManager().hasResponse());
 			DataResponsePacket p = (DataResponsePacket)Client.getClient().getRequestManager().getResponse();
-			new frmPlayerInformation(p.getName(), p.getServer(), p.getNotes(), p.getViolations(), p.getViolationLevel(), p.getID()).ShowDialog();
+			new frmPlayerInformation(p.getName(), p.getServer(), p.getNotes(), p.getViolations(), p.getViolationLevel(), p.getID(), p.getServerId()).ShowDialog();
 		}
 	}
 }

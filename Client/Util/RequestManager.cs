@@ -44,6 +44,12 @@ namespace PlayerTracker.Client.Util {
 							this.responses.Enqueue(new DataResponsePacket(p));
 						} else if (p.getType().Equals(PacketType.LIST_RESPONSE)) {
 							this.responses.Enqueue(new ServerListResponsePacket(p));
+						}else if(p.getType().Equals(PacketType.ATTACHMENT_LIST_RESP)){
+							this.responses.Enqueue(new AttachmentListResponsePacket(p));
+						} else if (p.getType().Equals(PacketType.ATTACHMENT_RESPONSE)) {
+							this.responses.Enqueue(new AttachmentResponsePacket(p));
+						} else if (p.getType().Equals(PacketType.REGISTRATION_RESPONSE)) {
+							//this.responses.Enqueue(new RegistrationResponsePacket(p));
 						}
 					}
 				} catch (InvalidPacketException e) {

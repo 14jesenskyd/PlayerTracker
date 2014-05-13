@@ -14,8 +14,8 @@ namespace PlayerTracker.Common.Net.Packets {
         public DataResponsePacket(Packet p) : base(p) {
         }
 
-		public DataResponsePacket(string name, string server, string notes, string violations, UserViolationLevel vl, string id)
-			: base(PacketType.DATA_RESPONSE, getBytesFromData(name, server, notes, violations, vl, id)){
+		public DataResponsePacket(string name, string server, string notes, string violations, UserViolationLevel vl, string id, string serverId)
+			: base(PacketType.DATA_RESPONSE, getBytesFromData(name, server, notes, violations, vl, id, serverId)){
 		}
 
 		public String getName() {
@@ -38,6 +38,10 @@ namespace PlayerTracker.Common.Net.Packets {
 			return NetUtils.bytesToString(base.getDataSection(5));
 		}
 
+		public string getServerId() {
+			return NetUtils.bytesToString(base.getDataSection(6));
+		}
+
 		public UserViolationLevel getViolationLevel() {
 			try {
 				return UserViolationLevel.getViolationLevelFromByte(base.getDataSection(3)[0]);
@@ -46,7 +50,7 @@ namespace PlayerTracker.Common.Net.Packets {
 			}
 		}
 
-		public static byte[] getBytesFromData(string name, string server, string notes, string violations, UserViolationLevel vl, string id){
+		public static byte[] getBytesFromData(string name, string server, string notes, string violations, UserViolationLevel vl, string id, string serverId){
 			List<byte> bytes = new List<byte>();
 
 			foreach (byte b in NetUtils.stringToBytes(name))
@@ -69,6 +73,10 @@ namespace PlayerTracker.Common.Net.Packets {
 			bytes.Add(0x0);
 
 			foreach (byte b in NetUtils.stringToBytes(id))
+				bytes.Add(b);
+			bytes.Add(0x0);
+
+			foreach (byte b in NetUtils.stringToBytes(serverId))
 				bytes.Add(b);
 
 			return NetUtils.byteListToArray(bytes);

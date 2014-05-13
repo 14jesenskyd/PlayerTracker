@@ -13,6 +13,10 @@ namespace PlayerTracker.Common.Net.Packets {
 			: base(p) {
 		}
 
+		public string getId(){
+			return NetUtils.bytesToString(base.getDataSection(0));
+		}
+
 		private static byte[] getData(string id){
 			return NetUtils.stringToBytes(id);
 		}

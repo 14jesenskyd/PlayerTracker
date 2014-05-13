@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using System.IO;
 using PlayerTracker.Common.Net;
 using PlayerTracker.Common.Net.Packets;
 using PlayerTracker.Common.Util;
@@ -13,8 +14,9 @@ using PlayerTracker.Common.Util;
 namespace PlayerTracker.Client.Forms {
 	public partial class frmPlayerInformation : Form {
         private string id;
+		private string serverId;
 
-		public frmPlayerInformation(string name, string server, string notes, string violations, UserViolationLevel vl, string id) {
+		public frmPlayerInformation(string name, string server, string notes, string violations, UserViolationLevel vl, string id, string serverId) {
 			InitializeComponent();
 			this.txtNotes.Text = notes;
 			this.txtInfractions.Text = violations;
@@ -22,6 +24,7 @@ namespace PlayerTracker.Client.Forms {
 			this.lblPlayer.Text = name;
 			this.lblServer.Text = server;
             this.id = id;
+			this.serverId = serverId;
 		}
 
 		private void btnSave_Click(object sender, EventArgs e) {
@@ -67,17 +70,64 @@ namespace PlayerTracker.Client.Forms {
 		}
 
 		private void btnBrowse_Click(object sender, EventArgs e) {
+			this.showOpen();
+		}
 
+		private void showOpen(){
+			if (open.ShowDialog() == System.Windows.Forms.DialogResult.OK) {
+				this.txtPath.Text = open.FileName;
+			}
 		}
 
 		private void btnUpload_Click(object sender, EventArgs e) {
-
+			List<byte> bytes = new List<byte>();
+			UploadAttachmentPacket packet = new UploadAttachmentPacket(this.lblPlayer.Text, this.lblServer.Text, NetUtils.byteListToArray(bytes));
+			packet.sendData(Client.getClient().getConnection());
 		}
 
 		private void playerData_SelectedIndexChanged(object sender, EventArgs e) {
 			if (playerData.SelectedIndex == 1) {
+				//show wait dialog, thread waiting for list, join afterwards and kill the wait dialog
+				AttachmentListRequestPacket packet = new AttachmentListRequestPacket(this.id, this.serverId);
+				packet.sendData(Client.getClient().getConnection());
 
+				while (!Client.getClient().getRequestManager().hasResponse()) ;
+
+				AttachmentListResponsePacket resp = new AttachmentListResponsePacket(Client.getClient().getRequestManager().getResponse());
+				List<Attachment> a = resp.getAttachments();
+
+				foreach (Attachment z in a) {
+					DataGridViewRow v = new DataGridViewRow();
+					v.CreateCells(this.grdAttachments, z.getID(), z.getUploadingUser(), z.getDateTime().ToShortDateString()+" "+z.getDateTime().ToLongTimeString());
+					this.grdAttachments.Rows.Add(v);
+				}
 			}
+		}
+
+		private void txtPath_Click(object sender, EventArgs e) {
+			this.showOpen();
+		}
+
+		private void btnDownload_Click(object sender, EventArgs e) {
+			if(save.ShowDialog() == System.Windows.Forms.DialogResult.OK){
+				AttachmentRequestPacket packet = new AttachmentRequestPacket(this.grdAttachments.SelectedRows[0].Cells[0].ToString());
+				packet.sendData(Client.getClient().getConnection());
+			
+				while(!Client.getClient().getRequestManager().hasResponse());
+			
+				AttachmentResponsePacket response = new AttachmentResponsePacket(Client.getClient().getRequestManager().getResponse());
+				byte[] data = response.getAttachmentData();
+				StreamWriter writer = new StreamWriter(save.FileName);
+
+				for(int i = 0; i < data.Length; i++){
+					writer.Write(data[i]);
+				}
+				writer.Close();
+			}
+		}
+
+		private void btnDeleteSS_Click(object sender, EventArgs e) {
+
 		}
 	}
 }
