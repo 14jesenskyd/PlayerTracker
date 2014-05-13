@@ -10,7 +10,7 @@ using System.Net;
 using System.Net.Sockets;
 
 namespace PlayerTracker.Server {
-    public class Server {
+    public class Server : IDisposable {
         public const string CONFIG_FILE = "server.cfg";
         private static volatile Server singletonInstance = null;
         private ConnectionManager connectionManager;
@@ -99,5 +99,23 @@ namespace PlayerTracker.Server {
         public override string ToString() {
             return "Server[" + this.getConnectionManager().ToString() + "]";
         }
+
+		public void Dispose() {
+			this.Dispose(true);
+		}
+
+		protected virtual void Dispose(bool managed) {
+			this.config = null;
+			this.accepting = false;
+			if (managed) {
+				this.dbMan.Dispose();
+				this.dbMan = null;
+				this.connectionManager.Dispose();
+				this.connectionManager = null;
+				this.dataMan.stop();
+				this.log.Dispose();
+				this.log = null;
+			}
+		}
     }
 }

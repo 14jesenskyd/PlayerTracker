@@ -10,7 +10,7 @@ using PlayerTracker.Common.Net;
 using PlayerTracker.Client.Util;
 
 namespace PlayerTracker.Client {
-    class Client {
+    class Client : IDisposable {
         public const string CONFIG_FILE = "client.cfg";
 		private static Client client = null;
 		private Logger logger;
@@ -94,5 +94,17 @@ namespace PlayerTracker.Client {
         public void setConfiguration(Configuration config) {
             this.config = config;
         }
+
+		public void Dispose() {
+
+		}
+
+		protected virtual void Dispose(bool managed) {
+			if (managed) {
+				this.connection.Dispose();
+				this.logger.Dispose();
+				this.requestMan.stop();
+			}
+		}
 	}
 }

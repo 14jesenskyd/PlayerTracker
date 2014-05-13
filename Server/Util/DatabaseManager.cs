@@ -7,7 +7,7 @@ using MySql.Data;
 using MySql.Data.MySqlClient;
 
 namespace PlayerTracker.Server.Util {
-	public class DatabaseManager {
+	public class DatabaseManager : IDisposable {
 		private MySqlConnection connection;
 		private String host;
 		private String username;
@@ -54,5 +54,15 @@ namespace PlayerTracker.Server.Util {
             if (this.connection.State != System.Data.ConnectionState.Open)
                 this.connect();
         }
+
+		public void Dispose() {
+			this.Dispose(true);
+		}
+
+		protected virtual void Dispose(bool managed) {
+			if (managed) {
+				this.connection.Dispose();
+			}
+		}
 	}
 }

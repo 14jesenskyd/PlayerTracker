@@ -68,6 +68,7 @@
     <Compile Include="Forms\Configuration Form.Designer.cs">
       <DependentUpon>Configuration Form.cs</DependentUpon>
     </Compile>
+    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="playertrackerDataSet.cs">
       <DependentUpon>playertrackerDataSet.xsd</DependentUpon>
     </Compile>

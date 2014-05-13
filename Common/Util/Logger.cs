@@ -5,7 +5,7 @@ using System.Text;
 using System.IO;
 
 namespace PlayerTracker.Common.Util {
-	public class Logger {
+	public class Logger : IDisposable {
 		enum Level {
 			INFO,
 			WARNING,
@@ -44,6 +44,17 @@ namespace PlayerTracker.Common.Util {
 
 		public override string ToString() {
 			return "Logger[" + this.filename + "]";
+		}
+
+		public void Dispose() {
+			this.Dispose(true);
+		}
+
+		protected virtual void Dispose(bool managed) {
+			if (managed) {
+				this.log.Flush();
+				this.log.Dispose();
+			}
 		}
 	}
 }

@@ -9,7 +9,7 @@ using PlayerTracker.Common.Exceptions;
 using PlayerTracker.Common.Net.Packets;
 
 namespace PlayerTracker.Common.Net {
-	public class Connection {
+	public class Connection : IDisposable {
 		private Socket sock;
 
 		public Connection(IPEndPoint iep){
@@ -67,6 +67,16 @@ namespace PlayerTracker.Common.Net {
 
 		public String toString() {
 			return this.sock.ToString();
+		}
+
+		public void Dispose() {
+			this.Dispose(true);
+		}
+
+		protected virtual void Dispose(bool managed) {
+			if (managed) {
+				this.sock.Dispose();
+			}
 		}
 	}
 }

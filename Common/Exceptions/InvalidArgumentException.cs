@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 
 namespace PlayerTracker.Common.Exceptions {
+	[Serializable]
 	public class InvalidArgumentException : Exception {
 		public InvalidArgumentException() : base("Invalid argument!"){
 		}

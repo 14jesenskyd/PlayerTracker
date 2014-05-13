@@ -13,7 +13,7 @@ using PlayerTracker.Server.Events;
 using System.Threading;
 
 namespace PlayerTracker.Server.Util {
-	public class ConnectionManager {
+	public class ConnectionManager : IDisposable {
         private const int SLEEP_DURATION = 35;
 		private Dictionary<IPAddress, Connection> connections;
 		private Socket socket;
@@ -177,6 +177,24 @@ namespace PlayerTracker.Server.Util {
 
 		public override string ToString() {
 			return "ConnectionManager[connections=" + this.connections.Count + "]";
+		}
+
+		public void Dispose() {
+			this.Dispose(true);
+		}
+
+		protected virtual void Dispose(bool managed) {
+			this.accepting = false;
+			this.thread.Abort();
+			this.thread = null;
+			this.listeners = null;
+			this.iep = null;
+			if (managed) {
+				foreach (Connection c in this.connections.Values) {
+					c.Dispose();
+				}
+				this.socket.Dispose();
+			}
 		}
 	}
 }
