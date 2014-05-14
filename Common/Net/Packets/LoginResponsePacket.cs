@@ -8,29 +8,30 @@ using PlayerTracker.Common.Exceptions;
 namespace PlayerTracker.Common.Net.Packets {
 	public class LoginResponsePacket : Packet {
 
-		public LoginResponsePacket(LoginResponse response)
-			: base(PacketType.LOGIN_RESPONSE, getBytes(response, "")) {
+		public LoginResponsePacket(LoginResponse response, string userId = null)
+			: base(PacketType.LOGIN_RESPONSE, getBytes(response, userId)) {
 		}
 
 		public LoginResponsePacket(Packet p)
 			: base(p) {
 		}
 
-		public LoginResponsePacket(LoginResponse response, String uuid)
-			: base(PacketType.LOGIN_RESPONSE, getBytes(response, uuid)) {
-		}
 
 		public LoginResponsePacket(params byte[] bytes)
 			: base(PacketType.LOGIN_RESPONSE, bytes) {
 		}
 
-		private static byte[] getBytes(LoginResponse response, String uuid) {
+		private static byte[] getBytes(LoginResponse response, string userId) {
 			List<Byte> bytes = new List<byte>();
 
 			bytes.Add(response.getResponse());
-			bytes.Add((byte)0x0);
-			foreach (byte b in NetUtils.stringToBytes(uuid))
-				bytes.Add(b);
+
+			if (userId != null) {
+				bytes.Add((byte)0x0);
+
+				foreach (byte b in NetUtils.stringToBytes(userId))
+					bytes.Add(b);
+			}
 
 			return NetUtils.byteListToArray(bytes);
 		}
@@ -40,12 +41,12 @@ namespace PlayerTracker.Common.Net.Packets {
 		}
 
 		public LoginResponse getResponse() {
-			return LoginResponse.getResponseFromByte(base.getAmmendedData()[3]);
+			return LoginResponse.getResponseFromByte(base.getDataSection(0)[0]);
 		}
 
 		public class LoginResponse {
 			public static readonly LoginResponse SUCCESS = new LoginResponse((byte)0x1);
-			public static readonly LoginResponse FAILURE = new LoginResponse((byte)0x0);
+			public static readonly LoginResponse FAILURE = new LoginResponse((byte)0x2);
 			private byte indicator;
 
 			LoginResponse(byte indicator) {
@@ -70,13 +71,17 @@ namespace PlayerTracker.Common.Net.Packets {
 				return this.indicator;
 			}
 
-			public bool Equals(LoginResponse resp){
+			public bool Equals(LoginResponse resp) {
 				return resp.getResponse() == this.getResponse();
 			}
 
 			public override string ToString() {
 				return "LoginResponse[" + base.ToString() + "]";
 			}
+		}
+
+		public string getUserId() {
+			return NetUtils.bytesToString(base.getDataSection(1));
 		}
 	}
 }

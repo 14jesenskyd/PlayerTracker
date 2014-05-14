@@ -10,6 +10,10 @@ namespace PlayerTracker.Common.Net.Packets {
 			: base(PacketType.LOGIN, getBytesFromInformation(user, pass)) {
 		}
 
+		public LoginPacket(Packet p)
+			: base(p) {
+		}
+
 		private static byte[] getBytesFromInformation(String user, String pass) {
 			List<byte> b = new List<byte>();
 			foreach (byte z in NetUtils.stringToBytes(user))
@@ -20,5 +24,12 @@ namespace PlayerTracker.Common.Net.Packets {
 			return NetUtils.byteListToArray(b);
 		}
 
+		public string getUser() {
+			return NetUtils.bytesToString(base.getDataSection(0));
+		}
+
+		public string getPasswordHash() {
+			return NetUtils.bytesToString(base.getDataSection(1));
+		}
 	}
 }

@@ -28,6 +28,7 @@ namespace PlayerTracker.Client.Forms {
 			if(r.getResponse().Equals(LoginResponsePacket.LoginResponse.SUCCESS)){
 				this.Hide();
 				Client.getClient().setUser(txtUsername.Text);
+				Client.getClient().setUserId(r.getUserId());
 				new frmSearch().ShowDialog();
 			}else{
 				MessageBox.Show("Invalid username or password.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Stop);

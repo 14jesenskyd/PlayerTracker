@@ -63,7 +63,14 @@ namespace PlayerTracker.Server.Util {
 								Packet response = null;
 
 								if (p.getType().Equals(PacketType.LOGIN)) {
-									response = new LoginResponsePacket(LoginResponsePacket.LoginResponse.SUCCESS);
+									LoginPacket packet = new LoginPacket(p);
+									MySqlDataReader r = Server.getSingleton().getDbManager().executeReader("select `id` from `users` where `user`=\""+packet.getUser()+"\" and `pass`=\""+packet.getPasswordHash()+"\"");
+									if(r.Read()){
+										response = new LoginResponsePacket(LoginResponsePacket.LoginResponse.SUCCESS, r.GetInt32("id").ToString());
+									}else{
+										response = new LoginResponsePacket(LoginResponsePacket.LoginResponse.FAILURE);
+									}
+									r.Close();
 								} else if (p.getType().Equals(PacketType.FETCH_DATA)) {
 									FetchPacket packet = new FetchPacket(p);
 									MySqlDataReader reader = Server.getSingleton().getDbManager().executeReader("select * from `players` where `serverId`=(select `serverId` from `servers` where `serverName`=\""+packet.getServer()+"\") and `playerName` like \""+packet.getName()+"\";");
@@ -109,7 +116,11 @@ namespace PlayerTracker.Server.Util {
 									r.Close();
 								}else if(p.getType().Equals(PacketType.UPLOAD_ATTACHMENT)){
 									UploadAttachmentPacket packet = new UploadAttachmentPacket(p);
-									Server.getSingleton().getDbManager().executeNonQuery("insert into `screenshots` (`playerId`, `serverId`, `data`, `uploadDate`, `uploadingUserId`) values("+packet.getPlayerId()+", "+packet.getServerId()+", "+packet.getAttachmentData()+", "+DateTime.Now.ToShortDateString()+" "+DateTime.Now.ToLongTimeString()+", "+packet.getUserId()+")");
+									MySqlCommand cmd = new MySqlCommand();
+									cmd.CommandText = "insert into `screenshots` (`playerId`, `serverId`, `data`, `uploadDate`, `uploadingUserId`) values("+packet.getPlayerId()+", "+packet.getServerId()+", \"?Data\", \""+DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")+"\", "+packet.getUserId()+")";
+									cmd.Parameters.AddWithValue("<?Data>", packet.getAttachmentData());
+									//cmd.Parameters.AddWithValue("<?DateTime>", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+									Server.getSingleton().getDbManager().executeNonQuery(cmd);
 								}else if(p.getType().Equals(PacketType.ATTACHMENT_REQUEST)){
 									AttachmentRequestPacket packet = new AttachmentRequestPacket(p);
 									MySqlDataReader r = Server.getSingleton().getDbManager().executeReader("select `data` from `screenshots` where `screenshotId`="+packet.getId());

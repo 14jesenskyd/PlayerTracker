@@ -13,22 +13,24 @@ using PlayerTracker.Common.Util;
 
 namespace PlayerTracker.Client.Forms {
 	public partial class frmPlayerInformation : Form {
-        private string id;
+		string userId;
+        private string playerId;
 		private string serverId;
 
-		public frmPlayerInformation(string name, string server, string notes, string violations, UserViolationLevel vl, string id, string serverId) {
+		public frmPlayerInformation(string name, string server, string notes, string violations, UserViolationLevel vl, string id, string serverId, string userId) {
 			InitializeComponent();
 			this.txtNotes.Text = notes;
 			this.txtInfractions.Text = violations;
 			this.setViolationLevel(vl);
 			this.lblPlayer.Text = name;
 			this.lblServer.Text = server;
-            this.id = id;
+            this.playerId = id;
 			this.serverId = serverId;
+			this.userId = userId;
 		}
 
 		private void btnSave_Click(object sender, EventArgs e) {
-            DataUpdatePacket p = new DataUpdatePacket(this.lblPlayer.Text, this.lblServer.Text, this.txtNotes.Text, this.txtInfractions.Text, this.getViolationLevel(), this.id);
+            DataUpdatePacket p = new DataUpdatePacket(this.lblPlayer.Text, this.lblServer.Text, this.txtNotes.Text, this.txtInfractions.Text, this.getViolationLevel(), this.playerId);
             p.sendData(Client.getClient().getConnection());
             this.Close();
 		}
@@ -81,14 +83,14 @@ namespace PlayerTracker.Client.Forms {
 
 		private void btnUpload_Click(object sender, EventArgs e) {
 			List<byte> bytes = new List<byte>();
-			UploadAttachmentPacket packet = new UploadAttachmentPacket(this.lblPlayer.Text, this.lblServer.Text, NetUtils.byteListToArray(bytes));
+			UploadAttachmentPacket packet = new UploadAttachmentPacket(this.playerId, this.serverId, this.userId, NetUtils.byteListToArray(bytes));
 			packet.sendData(Client.getClient().getConnection());
 		}
 
 		private void playerData_SelectedIndexChanged(object sender, EventArgs e) {
 			if (playerData.SelectedIndex == 1) {
 				//show wait dialog, thread waiting for list, join afterwards and kill the wait dialog
-				AttachmentListRequestPacket packet = new AttachmentListRequestPacket(this.id, this.serverId);
+				AttachmentListRequestPacket packet = new AttachmentListRequestPacket(this.playerId, this.serverId);
 				packet.sendData(Client.getClient().getConnection());
 
 				while (!Client.getClient().getRequestManager().hasResponse()) ;

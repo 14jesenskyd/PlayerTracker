@@ -5,7 +5,7 @@ using System.Text;
 using System.Security.Cryptography;
 
 namespace PlayerTracker.Common.Net {
-	public class NetUtils {
+	public sealed class NetUtils {
 		private NetUtils() {
 		}
 
@@ -16,9 +16,20 @@ namespace PlayerTracker.Common.Net {
 			return b;
 		}
 
-		public static byte[] getMD5Hash(byte[] b) {
-			MD5CryptoServiceProvider md5 = new MD5CryptoServiceProvider();
-			return md5.ComputeHash(b);
+		public static string getMD5Hash(byte[] b) {
+			MD5 md5 = MD5.Create();
+			StringBuilder sb = new StringBuilder();
+			byte[] hash = md5.ComputeHash(b);
+
+			for(int i = 0; i < hash.Length; i++){
+				sb.Append(hash[i].ToString("X2"));
+			}
+
+			return sb.ToString();
+		}
+
+		public static string getMD5Hash(string s){
+			return NetUtils.getMD5Hash(NetUtils.stringToBytes(s));
 		}
 
 		public static byte[] stringToBytes(String s) {

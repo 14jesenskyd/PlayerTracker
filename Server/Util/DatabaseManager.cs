@@ -33,9 +33,15 @@ namespace PlayerTracker.Server.Util {
 		}
 
 		public object executeScalar(string sql) {
-            this.reconnect();
+			this.reconnect();
 			MySqlCommand command = new MySqlCommand(sql, this.connection);
 			return command.ExecuteScalar();
+		}
+
+		public object executeScalar(MySqlCommand cmd) {
+			this.reconnect();
+			cmd.Connection = this.connection;
+			return cmd.ExecuteScalar();
 		}
 
 		public int executeNonQuery(string sql) {
@@ -44,10 +50,22 @@ namespace PlayerTracker.Server.Util {
 			return command.ExecuteNonQuery();
 		}
 
+		public int executeNonQuery(MySqlCommand cmd){
+			this.reconnect();
+			cmd.Connection = this.connection;
+			return cmd.ExecuteNonQuery();
+		}
+
 		public MySqlDataReader executeReader(string sql) {
-            this.reconnect();
+			this.reconnect();
 			MySqlCommand command = new MySqlCommand(sql, this.connection);
 			return command.ExecuteReader();
+		}
+
+		public MySqlDataReader executeReader(MySqlCommand cmd) {
+			this.reconnect();
+			cmd.Connection = this.connection;
+			return cmd.ExecuteReader();
 		}
 
         private void reconnect() {

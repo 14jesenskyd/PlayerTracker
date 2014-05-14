@@ -18,6 +18,7 @@ namespace PlayerTracker.Client {
 		private RequestManager requestMan;
 		private IPEndPoint iep;
 		private string user;
+		private string userId;
         private Configuration config;
 
 		private Client() {
@@ -29,12 +30,20 @@ namespace PlayerTracker.Client {
 			return getClient()._getLogger();
 		}
 
-		public string getUser(){
+		public string getUser() {
 			return this.user;
 		}
 
-		public void setUser(string user){
+		public void setUser(string user) {
 			this.user = user;
+		}
+
+		public string getUserId() {
+			return this.userId;
+		}
+
+		public void setUserId(string userId) {
+			this.userId = userId;
 		}
 
 		public static Client getClient() {
@@ -48,7 +57,8 @@ namespace PlayerTracker.Client {
 		}
 
         public void connect() {
-
+			if(this.connection != null && !this.connection.isClosed())
+				return;
             Server server = this.getConfiguration().getValue<Server>("activeServer", new Server("127.0.0.1", 1534));
             string ipstring = server.Host;
             byte[] ip = new byte[ipstring.Split('.').Length];
