@@ -6,10 +6,15 @@ The application will include both a client- and server-side. The idea of the pro
 #Usage
 ###Server
 #####Required Software
-- .NET Framework 4 (Client) or above
-- MySQL Server
+- [.NET Framework 4 (Client)](http://download.microsoft.com/download/1/B/E/1BE39E79-7E39-46A3-96FF-047F95396215/dotNetFx40_Full_setup.exe) or [above](http://download.microsoft.com/download/B/A/4/BA4A7E71-2906-4B2D-A0E1-80CF16844F5F/dotNetFx45_Full_setup.exe)
+- [MySQL Server](http://dev.mysql.com/get/Downloads/MySQL-5.6/mysql-5.6.17-winx64.zip)
 - MySQL Connector/NET library (MySQL.Data.dll) -- Included in binary folder.
 - PlayerTracker Common library (Player Tracker Common.dll) -- Included in binary folder.
+
+#####Recommended Software
+- [MySQL Workbench](http://dev.mysql.com/get/Downloads/MySQLGUITools/mysql-workbench-community-6.1.4-win32.msi)
+OR
+[Navicat for MySQL](http://download3.navicat.com/download/navicat110_mysql_en_x64.exe)
 
 #####Instructions
 1. Open the program.
@@ -20,7 +25,7 @@ The application will include both a client- and server-side. The idea of the pro
 
 ###Client
 Required Software
-- .NET Framework 4 (Client) or above
+- [.NET Framework 4 (Client)](http://download.microsoft.com/download/1/B/E/1BE39E79-7E39-46A3-96FF-047F95396215/dotNetFx40_Full_setup.exe) or [above](http://download.microsoft.com/download/B/A/4/BA4A7E71-2906-4B2D-A0E1-80CF16844F5F/dotNetFx45_Full_setup.exe)
 - PlayerTracker Common Library (Player Tracker Common.dll) -- Included in binary folder.
 
 #####Instructions
