@@ -8,7 +8,7 @@ The application will include both a client- and server-side. The idea of the pro
 #####Required Software
 - [.NET Framework 4 (Client)](http://download.microsoft.com/download/1/B/E/1BE39E79-7E39-46A3-96FF-047F95396215/dotNetFx40_Full_setup.exe) or [above](http://download.microsoft.com/download/B/A/4/BA4A7E71-2906-4B2D-A0E1-80CF16844F5F/dotNetFx45_Full_setup.exe)
 - [MySQL Server](http://dev.mysql.com/get/Downloads/MySQL-5.6/mysql-5.6.17-winx64.zip)
-- MySQL Connector/NET library (MySQL.Data.dll) -- Included in binary folder.
+- [MySQL Connector/NET library](http://dev.mysql.com/get/Downloads/Connector-Net/mysql-connector-net-1.0.10.1.exe) (MySQL.Data.dll) -- Included in binary folder.
 - PlayerTracker Common library (Player Tracker Common.dll) -- Included in binary folder.
 
 #####Recommended Software
