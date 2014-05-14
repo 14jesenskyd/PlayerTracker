@@ -29,15 +29,9 @@ namespace PlayerTracker.Server.Util {
 			return this.listeners.IndexOf(listener);
 		}
 
-		private String generateUUID() {
+		private string generateUUID() {
 			//TODO generate
 			return "";
-		}
-
-		private bool attemptLogin(String user, String pass) {
-			//TODO verify credentials
-			Server.getSingleton().getDbManager();
-			return false;
 		}
 
 		public void stop() {
@@ -119,7 +113,6 @@ namespace PlayerTracker.Server.Util {
 									MySqlCommand cmd = new MySqlCommand();
 									cmd.CommandText = "insert into `screenshots` (`playerId`, `serverId`, `data`, `uploadDate`, `uploadingUserId`) values("+packet.getPlayerId()+", "+packet.getServerId()+", \"?Data\", \""+DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")+"\", "+packet.getUserId()+")";
 									cmd.Parameters.AddWithValue("<?Data>", packet.getAttachmentData());
-									//cmd.Parameters.AddWithValue("<?DateTime>", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
 									Server.getSingleton().getDbManager().executeNonQuery(cmd);
 								}else if(p.getType().Equals(PacketType.ATTACHMENT_REQUEST)){
 									AttachmentRequestPacket packet = new AttachmentRequestPacket(p);

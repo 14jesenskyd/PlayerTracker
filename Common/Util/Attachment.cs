@@ -8,8 +8,6 @@ namespace PlayerTracker.Common.Util {
 		private DateTime datetime;
 		private string user;
 		private string id;
-		private DateTime dateTime;
-		private string p;
 
 		public Attachment(DateTime dt, string id, string user){
 			this.id = id;
@@ -30,7 +28,7 @@ namespace PlayerTracker.Common.Util {
 		}
 
 		public bool Equals(Attachment a) {
-			return a != null && a.id != null && a.id.Equals(this.id) && a.datetime != null && (a.datetime.ToShortDateString() + " " + a.datetime.ToLongTimeString()).Equals(this.datetime.ToShortDateString() + " " + this.datetime.ToLongTimeString());
+			return a != null && a.id != null && a.id.Equals(this.id) && a.datetime != null && (a.datetime.ToShortDateString() + " " + a.datetime.ToLongTimeString()).Equals(this.datetime.ToShortDateString() + " " + this.datetime.ToLongTimeString()) && a.user != null && this.user.Equals(a.user);
 		}
 	}
 }

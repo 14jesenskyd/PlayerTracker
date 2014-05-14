@@ -25,6 +25,10 @@ namespace PlayerTracker.Common.Net.Packets {
 				foreach (byte b in NetUtils.stringToBytes(a.getID()))
 					bytes.Add(b);
 				bytes.Add(0x0);
+
+				foreach (byte b in NetUtils.stringToBytes(a.getUploadingUser()))
+					bytes.Add(b);
+				bytes.Add(0x0);
 			}
 			if(bytes.Count > 1)
 				bytes.RemoveAt(bytes.Count-1);
@@ -37,7 +41,7 @@ namespace PlayerTracker.Common.Net.Packets {
 			int i = 0;
 
 			while (base.hasDataSection(i)) {
-				a.Add(new Attachment(DateTime.Parse(NetUtils.bytesToString(base.getDataSection(i++))), NetUtils.bytesToString(base.getDataSection(i++)), NetUtils.bytesToString(base.getDataSection(2))));
+				a.Add(new Attachment(DateTime.Parse(NetUtils.bytesToString(base.getDataSection(i++))), NetUtils.bytesToString(base.getDataSection(i++)), NetUtils.bytesToString(base.getDataSection(i++))));
 			}
 
 			return a;

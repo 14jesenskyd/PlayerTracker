@@ -68,7 +68,7 @@ namespace PlayerTracker.Client.Forms {
 		}
 
 		private void btnRefresh_Click(object sender, EventArgs e) {
-
+			this.refreshAttachments();
 		}
 
 		private void btnBrowse_Click(object sender, EventArgs e) {
@@ -88,22 +88,7 @@ namespace PlayerTracker.Client.Forms {
 		}
 
 		private void playerData_SelectedIndexChanged(object sender, EventArgs e) {
-			if (playerData.SelectedIndex == 1) {
-				//show wait dialog, thread waiting for list, join afterwards and kill the wait dialog
-				AttachmentListRequestPacket packet = new AttachmentListRequestPacket(this.playerId, this.serverId);
-				packet.sendData(Client.getClient().getConnection());
-
-				while (!Client.getClient().getRequestManager().hasResponse()) ;
-
-				AttachmentListResponsePacket resp = new AttachmentListResponsePacket(Client.getClient().getRequestManager().getResponse());
-				List<Attachment> a = resp.getAttachments();
-
-				foreach (Attachment z in a) {
-					DataGridViewRow v = new DataGridViewRow();
-					v.CreateCells(this.grdAttachments, z.getID(), z.getUploadingUser(), z.getDateTime().ToShortDateString()+" "+z.getDateTime().ToLongTimeString());
-					this.grdAttachments.Rows.Add(v);
-				}
-			}
+			this.refreshAttachments();
 		}
 
 		private void txtPath_Click(object sender, EventArgs e) {
@@ -130,6 +115,25 @@ namespace PlayerTracker.Client.Forms {
 
 		private void btnDeleteSS_Click(object sender, EventArgs e) {
 
+		}
+
+		private void refreshAttachments(){
+			if (playerData.SelectedIndex == 1) {
+				//show wait dialog, thread waiting for list, join afterwards and kill the wait dialog
+				AttachmentListRequestPacket packet = new AttachmentListRequestPacket(this.playerId, this.serverId);
+				packet.sendData(Client.getClient().getConnection());
+
+				while (!Client.getClient().getRequestManager().hasResponse()) ;
+
+				AttachmentListResponsePacket resp = new AttachmentListResponsePacket(Client.getClient().getRequestManager().getResponse());
+				List<Attachment> a = resp.getAttachments();
+
+				foreach (Attachment z in a) {
+					DataGridViewRow v = new DataGridViewRow();
+					v.CreateCells(this.grdAttachments, z.getID(), z.getUploadingUser(), z.getDateTime().ToShortDateString() + " " + z.getDateTime().ToLongTimeString());
+					this.grdAttachments.Rows.Add(v);
+				}
+			}
 		}
 	}
 }
