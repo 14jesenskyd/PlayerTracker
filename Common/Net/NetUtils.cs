@@ -36,8 +36,12 @@ namespace PlayerTracker.Common.Net {
 			return System.Text.Encoding.UTF8.GetBytes(s);
 		}
 
-		public static String bytesToString(byte[] b) {
+		public static string bytesToString(params byte[] b) {
 			return System.Text.Encoding.UTF8.GetString(b);
 		}
+
+		//public static byte[] trimNullBytes(byte[] arr){
+			
+		//}
 	}
 }

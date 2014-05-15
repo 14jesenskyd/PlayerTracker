@@ -13,7 +13,7 @@ using MySql.Data.MySqlClient;
 
 namespace PlayerTracker.Server.Util {
 	public class DataManager {
-        private const int SLEEP_DURATION = 35;
+		private const int SLEEP_DURATION = 35;
 		private List<DataTransmissionListener> listeners;
 		private bool running;
 		private Thread thread;
@@ -46,7 +46,7 @@ namespace PlayerTracker.Server.Util {
 
 		private void run() {
 			this.thread = Thread.CurrentThread;
-			while (this.running){
+			while (this.running) {
 				foreach (Connection c in Server.getSingleton().getConnectionManager().getConnections().Values) {
 					if (c.isClosed()) {
 						Server.getSingleton().getConnectionManager().getConnections().Remove(c.getAddress());
@@ -58,70 +58,86 @@ namespace PlayerTracker.Server.Util {
 
 								if (p.getType().Equals(PacketType.LOGIN)) {
 									LoginPacket packet = new LoginPacket(p);
-									MySqlDataReader r = Server.getSingleton().getDbManager().executeReader("select `id` from `users` where `user`=\""+packet.getUser()+"\" and `pass`=\""+packet.getPasswordHash()+"\"");
-									if(r.Read()){
+									MySqlDataReader r = Server.getSingleton().getDbManager().executeReader("select `id` from `users` where `user`=\"" + packet.getUser() + "\" and `pass`=\"" + packet.getPasswordHash() + "\"");
+									if (r.Read()) {
 										response = new LoginResponsePacket(LoginResponsePacket.LoginResponse.SUCCESS, r.GetInt32("id").ToString());
-									}else{
+									} else {
 										response = new LoginResponsePacket(LoginResponsePacket.LoginResponse.FAILURE);
 									}
 									r.Close();
 								} else if (p.getType().Equals(PacketType.FETCH_DATA)) {
 									FetchPacket packet = new FetchPacket(p);
-									MySqlDataReader reader = Server.getSingleton().getDbManager().executeReader("select * from `players` where `serverId`=(select `serverId` from `servers` where `serverName`=\""+packet.getServer()+"\") and `playerName` like \""+packet.getName()+"\";");
-									if(reader.Read()){
+									MySqlDataReader reader = Server.getSingleton().getDbManager().executeReader("select * from `players` where `serverId`=(select `serverId` from `servers` where `serverName`=\"" + packet.getServer() + "\") and `playerName` like \"" + packet.getName() + "\";");
+									if (reader.Read()) {
 										response = new DataResponsePacket(reader.GetString("playerName"), packet.getServer(), reader.GetString("notes"), reader.GetString("violations"), UserViolationLevel.getViolationLevelFromByte(reader.GetByte("violationLevel")), reader.GetInt32("id").ToString(), reader.GetInt32("serverId").ToString());
-									}else{
+									} else {
 										reader.Close();
-                                        MySqlDataReader r = Server.getSingleton().getDbManager().executeReader("select `serverId` from `servers` where `serverName`=\"" + packet.getServer() + "\"");
-                                        r.Read();
+										MySqlDataReader r = Server.getSingleton().getDbManager().executeReader("select `serverId` from `servers` where `serverName`=\"" + packet.getServer() + "\"");
+										r.Read();
 										int serverId = r.GetInt32("serverId");
 										r.Close();
-                                        Server.getSingleton().getDbManager().executeNonQuery("insert into `players` (`serverId`, `playerName`, `notes`, `violations`, `violationLevel`) values(" + serverId + ", \"" + packet.getName() + "\", \"\", \"\", " + UserViolationLevel.GOOD.getByteIdentity() + ")");
-                                        MySqlDataReader z = Server.getSingleton().getDbManager().executeReader("select `id`,`serverId` from `players` where `serverId`="+serverId+" and `playerName`=\""+packet.getName()+"\"");
-                                        z.Read();
+										Server.getSingleton().getDbManager().executeNonQuery("insert into `players` (`serverId`, `playerName`, `notes`, `violations`, `violationLevel`) values(" + serverId + ", \"" + packet.getName() + "\", \"\", \"\", " + UserViolationLevel.GOOD.getByteIdentity() + ")");
+										MySqlDataReader z = Server.getSingleton().getDbManager().executeReader("select `id`,`serverId` from `players` where `serverId`=" + serverId + " and `playerName`=\"" + packet.getName() + "\"");
+										z.Read();
 										response = new DataResponsePacket(packet.getName(), packet.getServer(), "", "", UserViolationLevel.GOOD, z.GetInt32("id").ToString(), z.GetInt32("serverId").ToString());
 										z.Close();
 									}
 									reader.Close();
-								}else if(p.getType().Equals(PacketType.LIST_REQUEST)){
+								} else if (p.getType().Equals(PacketType.LIST_REQUEST)) {
 									List<string> servers = new List<string>();
 									MySqlDataReader reader = Server.getSingleton().getDbManager().executeReader("select * from `servers`");
 									while (reader.Read())
 										servers.Add(reader.GetString("serverName"));
 									response = new ServerListResponsePacket(servers);
 									reader.Close();
-								}else if(p.getType().Equals(PacketType.REGISTRATION)){
+								} else if (p.getType().Equals(PacketType.REGISTRATION)) {
 									RegistrationPacket packet = new RegistrationPacket(p);
-									MySqlDataReader reader = Server.getSingleton().getDbManager().executeReader("select `serverAccess` from `registrationKeys` where `key`=\""+packet.getRegistrationKey()+"\"");
-									if(reader.Read()){
-										Server.getSingleton().getDbManager().executeScalar("insert into `users` (`firstName`, `lastName`, `user`, `pass`, `serverAccess`) values(\""+packet.getFirstName()+"\", \""+packet.getLastName()+"\", \""+packet.getUsername()+"\", \""+packet.getPasswordHash()+"\", \""+reader.GetString("serverAccess")+"\");");
+									MySqlDataReader reader = Server.getSingleton().getDbManager().executeReader("select `serverAccess` from `registrationKeys` where `key`=\"" + packet.getRegistrationKey() + "\"");
+									if (reader.Read()) {
+										Server.getSingleton().getDbManager().executeScalar("insert into `users` (`firstName`, `lastName`, `user`, `pass`, `serverAccess`) values(\"" + packet.getFirstName() + "\", \"" + packet.getLastName() + "\", \"" + packet.getUsername() + "\", \"" + packet.getPasswordHash() + "\", \"" + reader.GetString("serverAccess") + "\");");
 									}
-								}else if(p.getType().Equals(PacketType.DATA_UPDATE)){
+								} else if (p.getType().Equals(PacketType.DATA_UPDATE)) {
 									DataUpdatePacket packet = new DataUpdatePacket(p);
-									Server.getSingleton().getDbManager().executeNonQuery("update `players` set `playerName`=\""+packet.getPlayer()+"\", `notes`=\""+packet.getNotes()+"\", `violations`=\""+packet.getViolations()+"\", `violationLevel`="+packet.getViolationLevel().getByteIdentity()+" where `id`="+packet.getID()+";");
-								}else if(p.getType().Equals(PacketType.ATTACHMENT_LIST_REQ)){
+									Server.getSingleton().getDbManager().executeNonQuery("update `players` set `playerName`=\"" + packet.getPlayer() + "\", `notes`=\"" + packet.getNotes() + "\", `violations`=\"" + packet.getViolations() + "\", `violationLevel`=" + packet.getViolationLevel().getByteIdentity() + " where `id`=" + packet.getID() + ";");
+								} else if (p.getType().Equals(PacketType.ATTACHMENT_LIST_REQ)) {
 									AttachmentListRequestPacket packet = new AttachmentListRequestPacket(p);
 									List<Attachment> attachments = new List<Attachment>();
-									MySqlDataReader r = Server.getSingleton().getDbManager().executeReader("select `screenshotId`,`uploadDate`,`uploadingUserId` from `screenshots` where `playerId`="+packet.getPlayerId()+" and `serverId`="+packet.getServerId());
-									while(r.Read()){
+									MySqlDataReader r = Server.getSingleton().getDbManager().executeReader("select `screenshotId`,`uploadDate`,`uploadingUserId` from `screenshots` where `playerId`=" + packet.getPlayerId() + " and `serverId`=" + packet.getServerId());
+									while (r.Read()) {
 										attachments.Add(new Attachment(r.GetDateTime("uploadDate"), r.GetInt32("screenshotId").ToString(), r.GetInt32("uploadingUserId").ToString()));
 									}
 									response = new AttachmentListResponsePacket(attachments);
 									r.Close();
-								}else if(p.getType().Equals(PacketType.UPLOAD_ATTACHMENT)){
+								} else if (p.getType().Equals(PacketType.UPLOAD_ATTACHMENT)) {
 									UploadAttachmentPacket packet = new UploadAttachmentPacket(p);
 									MySqlCommand cmd = new MySqlCommand();
-									cmd.CommandText = "insert into `screenshots` (`playerId`, `serverId`, `data`, `uploadDate`, `uploadingUserId`) values("+packet.getPlayerId()+", "+packet.getServerId()+", \"?Data\", \""+DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")+"\", "+packet.getUserId()+")";
-									cmd.Parameters.AddWithValue("<?Data>", packet.getAttachmentData());
+									StringBuilder sb = new StringBuilder("[");
+									//foreach(byte b in packet.getAttachmentData()){
+									//    sb.Append(b);
+									//    sb.Append(", ");
+									//}
+									cmd.CommandText = "insert into `screenshots` (`playerId`, `serverId`, `data`, `uploadDate`, `uploadingUserId`, `dataLength`) values(?playerId, ?serverId, \"?attachmentData\", \"?dateTime\", ?userId, ?dataLength)";
+									cmd.Connection = Server.getSingleton().getDbManager().getConnection();
+									//cmd.CommandText = "insert into `screenshots` (`playerId`, `serverId`, `data`, `uploadDate`, `uploadingUserId`, `dataLength`) values("+packet.getPlayerId()+", "+packet.getServerId()+", \""+sb.ToString().Substring(0, sb.Length-2)+"]\", \""+DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")+"\", "+packet.getUserId()+", "+packet.getAttachmentData().Length+")";
+									//cmd.Parameters.AddWithValue("?Data", packet.getAttachmentData());
+									cmd.Parameters.AddWithValue("?playerId", packet.getPlayerId());
+									cmd.Parameters.AddWithValue("?serverId", packet.getServerId());
+									cmd.Parameters.AddWithValue("?attachmentData", packet.getAttachmentData());
+									cmd.Parameters.AddWithValue("?dateTime", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+									cmd.Parameters.AddWithValue("?userId", packet.getUserId());
+									cmd.Parameters.AddWithValue("?dataLength", packet.getAttachmentData().Length);
+									cmd.Parameters["?dataLength"].Value = 230035;
+									cmd.Prepare();
 									Server.getSingleton().getDbManager().executeNonQuery(cmd);
-								}else if(p.getType().Equals(PacketType.ATTACHMENT_REQUEST)){
+								} else if (p.getType().Equals(PacketType.ATTACHMENT_REQUEST)) {
 									AttachmentRequestPacket packet = new AttachmentRequestPacket(p);
-									MySqlDataReader r = Server.getSingleton().getDbManager().executeReader("select `data` from `screenshots` where `screenshotId`="+packet.getId());
+									MySqlDataReader r = Server.getSingleton().getDbManager().executeReader("select `data`,`dataLength` from `screenshots` where `screenshotId`=" + packet.getId());
 									r.Read();
-									response = new AttachmentResponsePacket(r.GetValue(0).ToString());
+									byte[] buffer = (byte[])r.GetValue(0);
+									response = new AttachmentResponsePacket(buffer);
 									r.Close();
 								}
-								if(response != null)
+								if (response != null)
 									response.sendData(c);
 							}
 						} catch (InvalidPacketException e) {

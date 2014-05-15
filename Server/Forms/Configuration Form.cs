@@ -12,5 +12,9 @@ namespace PlayerTracker.Server.Forms {
         public frmConfiguration() {
             InitializeComponent();
         }
+
+		private void btnSave_Click(object sender, EventArgs e) {
+
+		}
     }
 }

@@ -63,7 +63,7 @@ namespace PlayerTracker.Common.Net.Packets {
 			bool t = true;
 
 			while (t) {
-				if (index < base.data.Length)
+				if (index > base.data.Length)
 					break;
 				if(base.data[index] == 0)
 					iteration++;

@@ -82,5 +82,9 @@ namespace PlayerTracker.Server.Util {
 				this.connection.Dispose();
 			}
 		}
+
+		public MySqlConnection getConnection(){
+			return this.connection;
+		}
 	}
 }

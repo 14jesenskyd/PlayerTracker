@@ -13,9 +13,9 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
-CREATE DATABASE /*!32312 IF NOT EXISTS*/ `<? DATABASE_NAME>` /*!40100 DEFAULT CHARACTER SET utf8 */;
+CREATE DATABASE /*!32312 IF NOT EXISTS*/ `?DatabaseName` /*!40100 DEFAULT CHARACTER SET utf8 */;
 
-USE `<? DATABASE_NAME>`;
+USE `?DatabaseName`;
 
 --
 -- Table structure for table `players`
@@ -23,7 +23,7 @@ USE `<? DATABASE_NAME>`;
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `<? PLAYER_TABLE>` (
+CREATE TABLE `?PlayerTable` (
   `id` int(11) NOT NULL auto_increment,
   `serverId` int(11) NOT NULL,
   `playerName` text(35) NOT NULL,
@@ -31,8 +31,8 @@ CREATE TABLE `<? PLAYER_TABLE>` (
   `violations` text NOT NULL,
   `violationLevel` tinyint(4) NOT NULL,
   PRIMARY KEY (`id`,`serverId`,`playerName`(35)),
-  KEY `<? PLAYER_TABLE>` (`serverId`),
-  CONSTRAINT `players_ibfk_1` FOREIGN KEY (`serverId`) REFERENCES `<? SERVER_TABLE>` (`serverId`)
+  KEY `?PlayerTable` (`serverId`),
+  CONSTRAINT `players_ibfk_1` FOREIGN KEY (`serverId`) REFERENCES `?ServerTable` (`serverId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -42,17 +42,17 @@ CREATE TABLE `<? PLAYER_TABLE>` (
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `<? ATTACHMENT_TABLE>` (
+CREATE TABLE `?AttachmentTable` (
   `playerId` int(11) NOT NULL,
   `serverId` int(11) NOT NULL,
   `data` blob NOT NULL,
   `uploadDate` datetime not null,
   `uploadingUserId` int not null,
-  KEY `<? ATTACHMENT_TABLE>` (`serverId`),
-  KEY `<? PLAYER_TABLE>` (`playerId`),
-  CONSTRAINT `screenshots_ibfk_2` FOREIGN KEY (`playerId`) REFERENCES `<? PLAYER_TABLE>` (`id`),
-  CONSTRAINT `screenshots_ibfk_1` FOREIGN KEY (`serverId`) REFERENCES `<? SERVER_TABLE>` (`serverId`),
-  CONSTRAINT `screenshots_ibfk_3` FOREIGN KEY (`uploadingUserId`) REFERENCES `<? USER_TABLE>` (`id`)
+  KEY `?AttachmentTable` (`serverId`),
+  KEY `?PlayerTable` (`playerId`),
+  CONSTRAINT `screenshots_ibfk_2` FOREIGN KEY (`playerId`) REFERENCES `?PlayerTable` (`id`),
+  CONSTRAINT `screenshots_ibfk_1` FOREIGN KEY (`serverId`) REFERENCES `?ServerTable` (`serverId`),
+  CONSTRAINT `screenshots_ibfk_3` FOREIGN KEY (`uploadingUserId`) REFERENCES `?UserTable` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -62,7 +62,7 @@ CREATE TABLE `<? ATTACHMENT_TABLE>` (
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `<? SERVER_TABLE>` (
+CREATE TABLE `?ServerTable` (
   `serverId` int(11) NOT NULL auto_increment,
   `serverName` text NOT NULL,
   PRIMARY KEY (`serverId`)
@@ -75,13 +75,13 @@ CREATE TABLE `<? SERVER_TABLE>` (
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `<? USER_TABLE>` (
+CREATE TABLE `?UserTable` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `firstName` text NOT NULL,
   `lastName` text NOT NULL,
   `email` text NOT NULL,
   `username` text NOT NULL,
-  `pass` text NOT NULL,
+  `pass` text(32) NOT NULL,
   `serverAccess` text NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

@@ -85,6 +85,7 @@ namespace PlayerTracker.Client.Forms {
 			List<byte> bytes = new List<byte>();
 			UploadAttachmentPacket packet = new UploadAttachmentPacket(this.playerId, this.serverId, this.userId, NetUtils.byteListToArray(bytes));
 			packet.sendData(Client.getClient().getConnection());
+			this.refreshAttachments();
 		}
 
 		private void playerData_SelectedIndexChanged(object sender, EventArgs e) {
@@ -97,7 +98,7 @@ namespace PlayerTracker.Client.Forms {
 
 		private void btnDownload_Click(object sender, EventArgs e) {
 			if(save.ShowDialog() == System.Windows.Forms.DialogResult.OK){
-				AttachmentRequestPacket packet = new AttachmentRequestPacket(this.grdAttachments.SelectedRows[0].Cells[0].ToString());
+				AttachmentRequestPacket packet = new AttachmentRequestPacket(this.grdAttachments.SelectedRows[0].Cells[0].Value.ToString());
 				packet.sendData(Client.getClient().getConnection());
 			
 				while(!Client.getClient().getRequestManager().hasResponse());
@@ -107,7 +108,7 @@ namespace PlayerTracker.Client.Forms {
 				StreamWriter writer = new StreamWriter(save.FileName);
 
 				for(int i = 0; i < data.Length; i++){
-					writer.Write(data[i]);
+					writer.Write(NetUtils.bytesToString(data[i]));
 				}
 				writer.Close();
 			}
