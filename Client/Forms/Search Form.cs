@@ -34,6 +34,15 @@ namespace PlayerTracker.Client.Forms {
 		}
 
 		private void btnSearch_Click(object sender, EventArgs e) {
+			if (this.lstServer.SelectedIndex == -1) {
+				MessageBox.Show("Select a server to search.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				return;
+			}
+			if(this.txtPlayer.Text.Length == 0){
+				MessageBox.Show("Enter a player to search for.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				return;
+			}
+
 			FetchPacket packet = new FetchPacket(this.txtPlayer.Text, (string)this.lstServer.SelectedItem);
 			packet.sendData(Client.getClient().getConnection());
 			while(!Client.getClient().getRequestManager().hasResponse());

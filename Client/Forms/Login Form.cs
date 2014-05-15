@@ -20,6 +20,11 @@ namespace PlayerTracker.Client.Forms {
 		}
 
 		private void btnLogin_Click(object sender, EventArgs e) {
+			if (this.txtPassword.Text.Length == 0 || this.txtUsername.Text.Length == 0) {
+				MessageBox.Show("Neither the username nor password field may be blank.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				return;
+			}
+
 			Client.getClient().connect();
 			Packet p = new LoginPacket(txtUsername.Text, txtPassword.Text);
 			Client.getClient().getConnection().send(p);

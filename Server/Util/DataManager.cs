@@ -111,23 +111,14 @@ namespace PlayerTracker.Server.Util {
 								} else if (p.getType().Equals(PacketType.UPLOAD_ATTACHMENT)) {
 									UploadAttachmentPacket packet = new UploadAttachmentPacket(p);
 									MySqlCommand cmd = new MySqlCommand();
-									StringBuilder sb = new StringBuilder("[");
-									//foreach(byte b in packet.getAttachmentData()){
-									//    sb.Append(b);
-									//    sb.Append(", ");
-									//}
 									cmd.CommandText = "insert into `screenshots` (`playerId`, `serverId`, `data`, `uploadDate`, `uploadingUserId`, `dataLength`) values(?playerId, ?serverId, \"?attachmentData\", \"?dateTime\", ?userId, ?dataLength)";
-									cmd.Connection = Server.getSingleton().getDbManager().getConnection();
-									//cmd.CommandText = "insert into `screenshots` (`playerId`, `serverId`, `data`, `uploadDate`, `uploadingUserId`, `dataLength`) values("+packet.getPlayerId()+", "+packet.getServerId()+", \""+sb.ToString().Substring(0, sb.Length-2)+"]\", \""+DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")+"\", "+packet.getUserId()+", "+packet.getAttachmentData().Length+")";
-									//cmd.Parameters.AddWithValue("?Data", packet.getAttachmentData());
 									cmd.Parameters.AddWithValue("?playerId", packet.getPlayerId());
 									cmd.Parameters.AddWithValue("?serverId", packet.getServerId());
 									cmd.Parameters.AddWithValue("?attachmentData", packet.getAttachmentData());
 									cmd.Parameters.AddWithValue("?dateTime", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
 									cmd.Parameters.AddWithValue("?userId", packet.getUserId());
 									cmd.Parameters.AddWithValue("?dataLength", packet.getAttachmentData().Length);
-									cmd.Parameters["?dataLength"].Value = 230035;
-									cmd.Prepare();
+									
 									Server.getSingleton().getDbManager().executeNonQuery(cmd);
 								} else if (p.getType().Equals(PacketType.ATTACHMENT_REQUEST)) {
 									AttachmentRequestPacket packet = new AttachmentRequestPacket(p);
