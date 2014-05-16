@@ -111,7 +111,7 @@ namespace PlayerTracker.Server.Util {
 								} else if (p.getType().Equals(PacketType.UPLOAD_ATTACHMENT)) {
 									UploadAttachmentPacket packet = new UploadAttachmentPacket(p);
 									MySqlCommand cmd = new MySqlCommand();
-									cmd.CommandText = "insert into `screenshots` (`playerId`, `serverId`, `data`, `uploadDate`, `uploadingUserId`, `dataLength`) values(?playerId, ?serverId, \"?attachmentData\", \"?dateTime\", ?userId, ?dataLength)";
+									cmd.CommandText = "insert into `screenshots` (`playerId`, `serverId`, `data`, `uploadDate`, `uploadingUserId`, `dataLength`) values(?playerId, ?serverId, ?attachmentData, ?dateTime, ?userId, ?dataLength)";
 									cmd.Parameters.AddWithValue("?playerId", packet.getPlayerId());
 									cmd.Parameters.AddWithValue("?serverId", packet.getServerId());
 									cmd.Parameters.AddWithValue("?attachmentData", packet.getAttachmentData());

@@ -16,6 +16,7 @@ namespace PlayerTracker.Client.Forms {
 		string userId;
         private string playerId;
 		private string serverId;
+		bool sending;
 
 		public frmPlayerInformation(string name, string server, string notes, string violations, UserViolationLevel vl, string id, string serverId, string userId) {
 			InitializeComponent();
@@ -27,6 +28,7 @@ namespace PlayerTracker.Client.Forms {
             this.playerId = id;
 			this.serverId = serverId;
 			this.userId = userId;
+			sending = false;
 		}
 
 		private void btnSave_Click(object sender, EventArgs e) {
@@ -82,10 +84,12 @@ namespace PlayerTracker.Client.Forms {
 		}
 
 		private void btnUpload_Click(object sender, EventArgs e) {
-			List<byte> bytes = new List<byte>();
-			UploadAttachmentPacket packet = new UploadAttachmentPacket(this.playerId, this.serverId, this.userId, NetUtils.byteListToArray(bytes));
+			if(!File.Exists(txtPath.Text)){
+				MessageBox.Show("No file selected or file does not exist.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				return;
+			}
+			UploadAttachmentPacket packet = new UploadAttachmentPacket(this.playerId, this.serverId, this.userId, File.ReadAllBytes(this.txtPath.Text));
 			packet.sendData(Client.getClient().getConnection());
-			this.refreshAttachments();
 		}
 
 		private void playerData_SelectedIndexChanged(object sender, EventArgs e) {
@@ -104,13 +108,7 @@ namespace PlayerTracker.Client.Forms {
 				while(!Client.getClient().getRequestManager().hasResponse());
 			
 				AttachmentResponsePacket response = new AttachmentResponsePacket(Client.getClient().getRequestManager().getResponse());
-				byte[] data = response.getAttachmentData();
-				StreamWriter writer = new StreamWriter(save.FileName);
-
-				for(int i = 0; i < data.Length; i++){
-					writer.Write(NetUtils.bytesToString(data[i]));
-				}
-				writer.Close();
+				File.WriteAllBytes(save.FileName, response.getAttachmentData());
 			}
 		}
 

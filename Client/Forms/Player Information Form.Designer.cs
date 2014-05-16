@@ -233,6 +233,7 @@
 			this.btnDeleteSS.TabIndex = 4;
 			this.btnDeleteSS.Text = "Delete Selected";
 			this.btnDeleteSS.UseVisualStyleBackColor = true;
+			this.btnDeleteSS.Visible = false;
 			this.btnDeleteSS.Click += new System.EventHandler(this.btnDeleteSS_Click);
 			// 
 			// btnRefresh
@@ -320,6 +321,7 @@
 			this.btnDelete.TabIndex = 6;
 			this.btnDelete.Text = "&Delete Player";
 			this.btnDelete.UseVisualStyleBackColor = true;
+			this.btnDelete.Visible = false;
 			this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
 			// 
 			// btnCancel
