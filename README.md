@@ -60,7 +60,7 @@ Required Software
 ###Client
 - Configuration form does not display entirely correctly: if a user adds a server, deletes it, saves the configuration, then opens the configuration form again, the active server will not show anything.
 - Although it isn't really a bug -- just a code shortcoming (which I know how to fix) -- client forms and the server form may freeze at times when reading or sending data betwixt each other. This is caused by the overhead of sockets and their synchronous reading and sending (even though they have asynchronous methods to do so, too).
-- Downloading player attachments does not work correctly.
+- Downloading player attachments does not work correctly (sometimes?).
 
 ###Server
 - Does not close correctly; will hang. Process must be stopped manually from the task manager.
