@@ -14,7 +14,7 @@ The application will include both a client- and server-side. The idea of the pro
 #####Recommended Software
 - [MySQL Workbench](http://dev.mysql.com/get/Downloads/MySQLGUITools/mysql-workbench-community-6.1.4-win32.msi)
 OR
-[Navicat for MySQL](http://download3.navicat.com/download/navicat110_mysql_en_x64.exe)
+[Navicat for MySQL](http://download3.navicat.com/download/navicat110_mysql_en_x64.exe) -- used for executing SQL queries on the server, if needed. The former is installed on my computer if you use it.
 
 #####Instructions
 1. Open the program.
@@ -37,9 +37,30 @@ Required Software
 6. Edit the player's information, then click Save & Close or Cancel.
 7. Click Search again if you'd like to confirm that the information was saved (or not).
 
+#####Pre-defined test data
+######Players
+- asdf
+- 123
+- gooby
+- frogs
+- toadular
+- stuff
+- joefabeetz
+- You can also type in a name that isn't here and it will be added to the database.
+
+######Users
+- frogs (password: 1234)
+- You can add more by executing the following statement (replacing appropriate constants in all caps): ```INSERT INTO `users` (`firstName`, `lastName`, `user`, `pass`, `serverAccess`) VALUES("FIRST_NAME", "LAST_NAME", "USERNAME", "PASSWORD", "SERVER_IDS_ACCESSIBLE_DELIMITED_BY_COMMAS");```
+
+######Servers
+- stuff
+- You can add more by executing the following statement (replacing ```SERVER_NAME_HERE``` with the actual name) on the SQL server: ```INSERT INTO `servers` (serverName) VALUES("SERVER_NAME_HERE");```
+
 #Known Bugs
 ###Client
 - Configuration form does not display entirely correctly: if a user adds a server, deletes it, saves the configuration, then opens the configuration form again, the active server will not show anything.
+- Although it isn't really a bug -- just a code shortcoming (which I know how to fix) -- client forms and the server form may freeze at times when reading or sending data betwixt each other. This is caused by the overhead of sockets and their synchronous reading and sending (even though they have asynchronous methods to do so, too).
+- Downloading player attachments does not work correctly.
 
 ###Server
 - Does not close correctly; will hang. Process must be stopped manually from the task manager.
@@ -95,4 +116,4 @@ Purpose:
 >I feel that the purpose is satisfied, per the original write-up.
 
 Outcome:
->I feel that, while it falls short by my standards, time constraints did not allow for full completion. With more time, I probably would've been able to complete more, better. Unfortunately, due to time, the forms in the client which send packets (which is all of them except for the configuration ones) do not use asynchronous calls for sending and receiving data to and from the server. This, by my standards, would fail -- but the program still functions to its specified parameters. The server, while "working" in most aspects, does not allow listening on a different port or address. There is no form to manage existing users, and there is no permission level for anything. This falls short of what I wanted to (and will, after the project is graded -- this isn't just for a grade) do with the project. There's no registration-via-key system that I wanted to implement, but that also falls in line with the aforementioned.
+>I feel that, while it falls short by my standards, time constraints did not allow for full completion. With more time, I probably would've been able to complete more, better. Unfortunately, due to time, the forms in the client which send packets (which is all of them except for the configuration ones) do not use asynchronous calls for sending and receiving data to and from the server. This, by my standards, would fail -- but the program still functions to its specified parameters. The server, while "working" in most aspects, does not allow listening on a different port or address. There is no form to manage existing users, and there is no permission level for anything. This falls short of what I wanted to (and will, after the project is graded -- this isn't just for a grade) do with the project. There's no registration-via-key system that I wanted to implement, but that also falls in line with the aforementioned. There's also no commenting, which is unfortunate (or, that which exists is in Java format, not C#'s XML format), but was necessary for the sake of time -- I barely finished what I did, so if I spent time commenting, I'd probably have nothing to show for all of this time.
