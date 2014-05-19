@@ -23,7 +23,7 @@ USE `?DatabaseName`;
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `?PlayerTable` (
+CREATE TABLE /*!32312 IF NOT EXISTS*/ `?PlayerTable` (
   `id` int(11) NOT NULL auto_increment,
   `serverId` int(11) NOT NULL,
   `playerName` text(35) NOT NULL,
@@ -42,7 +42,7 @@ CREATE TABLE `?PlayerTable` (
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `?AttachmentTable` (
+CREATE TABLE /*!32312 IF NOT EXISTS*/ `?AttachmentTable` (
   `playerId` int(11) NOT NULL,
   `serverId` int(11) NOT NULL,
   `data` blob NOT NULL,
@@ -62,7 +62,7 @@ CREATE TABLE `?AttachmentTable` (
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `?ServerTable` (
+CREATE TABLE /*!32312 IF NOT EXISTS*/ `?ServerTable` (
   `serverId` int(11) NOT NULL auto_increment,
   `serverName` text NOT NULL,
   PRIMARY KEY (`serverId`)
@@ -75,7 +75,7 @@ CREATE TABLE `?ServerTable` (
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `?UserTable` (
+CREATE TABLE /*!32312 IF NOT EXISTS*/ `?UserTable` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `firstName` text NOT NULL,
   `lastName` text NOT NULL,
