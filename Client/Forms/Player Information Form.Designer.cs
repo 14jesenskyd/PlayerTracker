@@ -368,6 +368,11 @@
 			this.lblServer.Size = new System.Drawing.Size(191, 23);
 			this.lblServer.TabIndex = 3;
 			// 
+			// open
+			// 
+			this.open.Filter = "PNG Images|*.png|JPEG Images|*.jpg,*.jpeg";
+			this.open.Title = "Upload File";
+			// 
 			// frmPlayerInformation
 			// 
 			this.AcceptButton = this.btnSave;

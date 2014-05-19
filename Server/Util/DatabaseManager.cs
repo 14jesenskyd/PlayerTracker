@@ -77,6 +77,15 @@ namespace PlayerTracker.Server.Util {
 			this.Dispose(true);
 		}
 
+		public MySqlCommand prepareCommand(string sql, params KeyValuePair<string, object>[] parameters){
+			MySqlCommand c = new MySqlCommand(sql, this.connection);
+
+			foreach(KeyValuePair<string, object> arg in parameters)
+				c.Parameters.AddWithValue(arg.Key, arg.Value);
+
+			return c;
+		}
+
 		protected virtual void Dispose(bool managed) {
 			if (managed) {
 				this.connection.Dispose();
