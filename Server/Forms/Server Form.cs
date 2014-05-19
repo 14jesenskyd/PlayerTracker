@@ -31,7 +31,8 @@ namespace PlayerTracker.Server.Forms {
 
 		private void frmServer_FormClosed(object sender, FormClosedEventArgs e) {
 			if(Server.getSingleton().isAccepting()){
-				Server.getSingleton().toggleListening();
+			    Server.getSingleton().toggleListening();
+				Server.getSingleton().getDbManager().Dispose();
 			}
 		}
 	}

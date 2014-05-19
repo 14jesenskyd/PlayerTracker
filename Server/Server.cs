@@ -36,6 +36,7 @@ namespace PlayerTracker.Server {
                 this.dbMan.connect();
                 this.dataMan = new DataManager();
                 this.dataMan.start();
+                this.accepting = true;
 
                 int rows = this.dbMan.executeNonQuery("SELECT * FROM information_schema.tables WHERE table_schema = 'playertracker' AND table_name = 'users' LIMIT 1;");
 
@@ -47,7 +48,6 @@ namespace PlayerTracker.Server {
                         sql += reader.ReadLine() + "\n";
                     this.dbMan.executeNonQuery(sql);
                 }
-                this.accepting = true;
             } catch (IOException e) {
                 this.log.error(e.Message);
             }
@@ -91,6 +91,10 @@ namespace PlayerTracker.Server {
         public DatabaseManager getDbManager() {
             return this.dbMan;
         }
+
+		public DataManager getDataManager(){
+			return this.dataMan;
+		}
 
         public Dictionary<IPAddress, Connection> getConnections() {
             return this.connectionManager.getConnections();
