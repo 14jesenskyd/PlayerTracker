@@ -119,7 +119,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Util\RequestManager.cs" />
-    <Compile Include="Util\Server.cs" />
+    <Compile Include="Util\ServerAddress.cs" />
     <EmbeddedResource Include="Forms\Configuration Form.resx">
       <DependentUpon>Configuration Form.cs</DependentUpon>
     </EmbeddedResource>
