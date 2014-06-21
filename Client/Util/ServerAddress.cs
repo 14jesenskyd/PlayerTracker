@@ -5,18 +5,18 @@ using System.Text;
 
 namespace PlayerTracker.Client.Util {
     [Serializable]
-    public class Server {
+    public class ServerAddress {
         private string name;
         private string hostname;
         private ushort port;
 
-        public Server(string name, string hostname, ushort port) {
+        public ServerAddress(string name, string hostname, ushort port) {
             this.name = name;
             this.hostname = hostname;
             this.port = port;
         }
 
-        public Server(string hostname, ushort port) {
+        public ServerAddress(string hostname, ushort port) {
             this.name = "";
             this.hostname = hostname;
             this.port = port;
