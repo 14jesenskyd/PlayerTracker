@@ -10,7 +10,7 @@ using PlayerTracker.Client.Util;
 
 namespace PlayerTracker.Client.Forms {
     public partial class frmServerProperties : Form {
-        private Server server;
+        private ServerAddress server;
         private List<string> names;
 
         public frmServerProperties() {
@@ -23,7 +23,7 @@ namespace PlayerTracker.Client.Forms {
             this.names = serverNames;
         }
 
-        public frmServerProperties(Server s, List<string> serverNames) {
+        public frmServerProperties(ServerAddress s, List<string> serverNames) {
             InitializeComponent();
             this.names = serverNames;
             this.txtServerName.Text = s.Name;
@@ -43,14 +43,14 @@ namespace PlayerTracker.Client.Forms {
 
             ushort port;
             if (ushort.TryParse(this.txtServerPort.Text, out port) && port != 0) {
-                this.server = new Server(this.txtServerName.Text, this.txtServerHost.Text, port);
+                this.server = new ServerAddress(this.txtServerName.Text, this.txtServerHost.Text, port);
                 base.DialogResult = System.Windows.Forms.DialogResult.OK;
             } else {
                 MessageBox.Show("Enter a valid positive integer between 1 and 65,535, inclusive.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
-        public Server getServer() {
+        public ServerAddress getServer() {
             return this.server;
         }
     }

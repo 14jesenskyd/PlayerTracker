@@ -16,7 +16,7 @@ namespace PlayerTracker.Client.Forms {
         public frmConfiguration() {
             InitializeComponent();
             this.config = Client.getClient().getConfiguration();
-            this.lblServer.Text = this.config.getValue<Server>("activeServer", new Server("Default", "127.0.0.1", 1534)).Name;
+            this.lblServer.Text = this.config.getValue<ServerAddress>("activeServer", new ServerAddress("Default", "127.0.0.1", 1534)).Name;
         }
 
         private void btnSave_Click(object sender, EventArgs e) {
@@ -26,16 +26,16 @@ namespace PlayerTracker.Client.Forms {
         }
 
         private void btnChangeServer_Click(object sender, EventArgs e) {
-            frmServerSelection form = new frmServerSelection(this.config.getValue<List<Server>>("serverList", new List<Server>()));
+            frmServerSelection form = new frmServerSelection(this.config.getValue<List<ServerAddress>>("serverList", new List<ServerAddress>()));
             if (form.ShowDialog() == System.Windows.Forms.DialogResult.OK) {
-                this.config.setValue<List<Server>>("serverList", form.getServers());
+                this.config.setValue<List<ServerAddress>>("serverList", form.getServers());
                 if (form.getSelectedServer() == null) {
                     MessageBox.Show("Because you didn't select a server, default localhost settings will be used.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    this.config.setValue<Server>("activeServer", new Server("127.0.0.1", 1534));
+                    this.config.setValue<ServerAddress>("activeServer", new ServerAddress("127.0.0.1", 1534));
                     this.lblServer.Text = "Default";
                 } else {
                     this.lblServer.Text = form.getSelectedServer().Name;
-                    this.config.setValue<Server>("activeServer", form.getSelectedServer());
+                    this.config.setValue<ServerAddress>("activeServer", form.getSelectedServer());
                 }
             }
         }

@@ -59,7 +59,7 @@ namespace PlayerTracker.Client {
         public void connect() {
 			if(this.connection != null && !this.connection.isClosed())
 				return;
-            Server server = this.getConfiguration().getValue<Server>("activeServer", new Server("127.0.0.1", 1534));
+			ServerAddress server = this.getConfiguration().getValue<ServerAddress>("activeServer", new ServerAddress("127.0.0.1", 1534));
             string ipstring = server.Host;
             byte[] ip = new byte[ipstring.Split('.').Length];
             int i = 0;

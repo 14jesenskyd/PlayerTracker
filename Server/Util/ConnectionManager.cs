@@ -116,7 +116,6 @@ namespace PlayerTracker.Server.Util {
 			new Thread(new ThreadStart(run)).Start();
 		}
 
-
 		private void run() {
 			this.thread = Thread.CurrentThread;
 			this.socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
@@ -139,7 +138,6 @@ namespace PlayerTracker.Server.Util {
 				Thread.Sleep(SLEEP_DURATION);
 			}
 		}
-
 
 		/**
 		 * Calls {@link me.jesensky.dan.playertracker.listeners.ConnectionListener#onConnectEvent(me.jesensky.dan.playertracker.events.ConnectionEvent)}
