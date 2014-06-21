@@ -10,9 +10,9 @@ using PlayerTracker.Client.Util;
 
 namespace PlayerTracker.Client.Forms {
     public partial class frmServerSelection : Form {
-        private List<Server> servers;
+        private List<ServerAddress> servers;
 
-        public frmServerSelection(List<Server> servers) {
+        public frmServerSelection(List<ServerAddress> servers) {
             InitializeComponent();
             this.servers = servers;
             this.updateList();
@@ -57,12 +57,12 @@ namespace PlayerTracker.Client.Forms {
 
         private void updateList() {
             this.lstServers.Items.Clear();
-            foreach (Server server in this.servers) {
+            foreach (ServerAddress server in this.servers) {
                 this.lstServers.Items.Add(server.Name + " (" + server.Host + ":" + server.Port.ToString() + ")");
             }
         }
 
-        public Server getSelectedServer() {
+        public ServerAddress getSelectedServer() {
             if (this.lstServers.SelectedIndex == -1)
                 return null;
             return this.servers[this.lstServers.SelectedIndex];
@@ -70,13 +70,13 @@ namespace PlayerTracker.Client.Forms {
 
         private List<string> getNames() {
             List<string> serverNames = new List<string>();
-            foreach (Server s in this.servers) {
+            foreach (ServerAddress s in this.servers) {
                 serverNames.Add(s.Name);
             }
             return serverNames;
         }
 
-        public List<Server> getServers() {
+        public List<ServerAddress> getServers() {
             return this.servers;
         }
     }
