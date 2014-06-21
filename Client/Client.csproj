@@ -13,6 +13,7 @@
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -25,7 +26,6 @@
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>0</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
@@ -80,6 +80,9 @@
     <Compile Include="Forms\Configuration Form.Designer.cs">
       <DependentUpon>Configuration Form.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\Management\GroupManagementForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\Login Form.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -109,6 +112,9 @@
     </Compile>
     <Compile Include="Forms\Server Properties Form.Designer.cs">
       <DependentUpon>Server Properties Form.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Management\User Management Form.cs">
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\WaitDialog.cs">
       <SubType>Form</SubType>

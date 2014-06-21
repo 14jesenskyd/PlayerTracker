@@ -10,6 +10,7 @@ using PlayerTracker.Common.Net;
 using PlayerTracker.Common.Net.Packets;
 using PlayerTracker.Common.Util;
 using PlayerTracker.Client.Util;
+using PlayerTracker.Client.Forms.Management;
 
 namespace PlayerTracker.Client.Forms {
 	public partial class frmSearch : Form {
@@ -48,6 +49,16 @@ namespace PlayerTracker.Client.Forms {
 			while(!Client.getClient().getRequestManager().hasResponse());
 			DataResponsePacket p = (DataResponsePacket)Client.getClient().getRequestManager().getResponse();
 			new frmPlayerInformation(p.getName(), p.getServer(), p.getNotes(), p.getViolations(), p.getViolationLevel(), p.getID(), p.getServerId(), Client.getClient().getUserId()).ShowDialog();
+		}
+
+		private void manageGroupsToolStripMenuItem_Click(object sender, EventArgs e) {
+			//TODO grab groups from server; pass them to the gui
+
+		}
+
+		private void manageUsersToolStripMenuItem_Click(object sender, EventArgs e) {
+			//TODO grab users from server; pass them to the gui
+			
 		}
 	}
 }
