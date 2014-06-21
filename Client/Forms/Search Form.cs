@@ -53,12 +53,14 @@ namespace PlayerTracker.Client.Forms {
 
 		private void manageGroupsToolStripMenuItem_Click(object sender, EventArgs e) {
 			//TODO grab groups from server; pass them to the gui
-
+			GroupManagementForm form = new GroupManagementForm();
+			form.ShowDialog();
 		}
 
 		private void manageUsersToolStripMenuItem_Click(object sender, EventArgs e) {
 			//TODO grab users from server; pass them to the gui
-			
+			UserManagementForm form = new UserManagementForm();
+			form.ShowDialog();
 		}
 	}
 }

@@ -71,9 +71,6 @@
     <Compile Include="Forms\Management\Group Management Form.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\Management\Group Management Form.Designer.cs">
-      <DependentUpon>Group Management Form.cs</DependentUpon>
-    </Compile>
     <Compile Include="Forms\Management\User Management Form.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="playertrackerDataSet.cs">
@@ -102,9 +99,6 @@
     <Compile Include="Util\DatabaseManager.cs" />
     <EmbeddedResource Include="Forms\Configuration Form.resx">
       <DependentUpon>Configuration Form.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Management\Group Management Form.resx">
-      <DependentUpon>Group Management Form.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
