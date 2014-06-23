@@ -31,7 +31,7 @@ namespace PlayerTracker.Client.Forms {
                 this.config.setValue<List<ServerAddress>>("serverList", form.getServers());
                 if (form.getSelectedServer() == null) {
                     MessageBox.Show("Because you didn't select a server, default localhost settings will be used.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    this.config.setValue<ServerAddress>("activeServer", new ServerAddress("127.0.0.1", 1534));
+                    this.config.setValue<ServerAddress>("activeServer", new ServerAddress("Default", "127.0.0.1", 1534));
                     this.lblServer.Text = "Default";
                 } else {
                     this.lblServer.Text = form.getSelectedServer().Name;
