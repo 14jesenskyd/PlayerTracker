@@ -32,22 +32,18 @@ namespace PlayerTracker.Server {
                 this.config = Configuration.load(CONFIG_FILE);
                 this.connectionManager = new ConnectionManager(this.config.getValue<int>("port", 1534), this.config.getValue<string>("hostname", "127.0.0.1"));
                 this.connectionManager.start();
-                this.dbMan = new DatabaseManager(this.config.getValue<string>("db-hostname", "127.0.0.1"), this.config.getValue<int>("db-port", 3306), this.config.getValue<string>("db-user", "root"), this.config.getValue<string>("db-password", "root"), this.config.getValue<string>("db-database", "playertracker"));
+				//TODO remove hard-coded values
+                this.dbMan = new DatabaseManager(this.config.getValue<string>("db-hostname", "127.0.0.1"), this.config.getValue<int>("db-port", 3306), this.config.getValue<string>("db-user", "root"), this.config.getValue<string>("db-password", "root"), this.config.getValue<string>("db-database", "playertracker-test"), KVFactory.str("UserTable", "users"), KVFactory.str("ServerTable", "servers"), KVFactory.str("PlayerTable", "players"), KVFactory.str("AttachmentTable", "attachments"));
                 this.dbMan.connect();
                 this.dataMan = new DataManager();
                 this.dataMan.start();
                 this.accepting = true;
 
-                int rows = this.dbMan.executeNonQuery("SELECT * FROM information_schema.tables WHERE table_schema = 'playertracker' AND table_name = 'users' LIMIT 1;");
-
-
-                if (rows < 1) {
-                    string sql = "";
-                    StreamReader reader = new StreamReader("tables.sql");
-                    while (reader.Peek() != -1)
-                        sql += reader.ReadLine() + "\n";
-                    this.dbMan.executeNonQuery(sql);
-                }
+                string sql = "";
+                StreamReader reader = new StreamReader("tables.sql");
+                while (reader.Peek() != -1)
+                    sql += reader.ReadLine() + "\n";
+				this.dbMan.prepareCommand(sql).ExecuteNonQuery();
             } catch (IOException e) {
                 this.log.error(e.Message);
             }

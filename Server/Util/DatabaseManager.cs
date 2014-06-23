@@ -14,13 +14,19 @@ namespace PlayerTracker.Server.Util {
 		private String password;
 		private String db;
 		private int port;
+		private Dictionary<string, string> tables;
 
-		public DatabaseManager(String host, int port, String user, String password, String db) {
+		public DatabaseManager(String host, int port, String user, String password, String db, params KeyValuePair<string, string>[] tables) {
 			this.host = host;
 			this.port = port;
 			this.username = user;
 			this.password = password;
 			this.db = db;
+			this.tables = new Dictionary<string, string>();
+
+			foreach (KeyValuePair<string, string> table in tables) {
+				this.tables.Add(table.Key, table.Value);
+			}
 		}
 
 		public void connect() {
@@ -77,8 +83,18 @@ namespace PlayerTracker.Server.Util {
 			this.Dispose(true);
 		}
 
+		private string getTable(string index) {
+			return this.tables[index];
+		}
+
 		public MySqlCommand prepareCommand(string sql, params KeyValuePair<string, object>[] parameters){
 			MySqlCommand c = new MySqlCommand(sql, this.connection);
+
+			c.CommandText = c.CommandText.Replace("?DatabaseName", "`"+this.db+"`");
+			c.CommandText = c.CommandText.Replace("?UserTable", "`"+this.getTable("UserTable")+"`");
+			c.CommandText = c.CommandText.Replace("?ServerTable", "`"+this.getTable("ServerTable")+"`");
+			c.CommandText = c.CommandText.Replace("?AttachmentTable", "`"+this.getTable("AttachmentTable")+"`");
+			c.CommandText = c.CommandText.Replace("?PlayerTable", "`"+this.getTable("PlayerTable")+"`");
 
 			foreach(KeyValuePair<string, object> arg in parameters)
 				c.Parameters.AddWithValue(arg.Key, arg.Value);
