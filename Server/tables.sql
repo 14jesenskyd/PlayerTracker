@@ -43,11 +43,13 @@ CREATE TABLE /*!32312 IF NOT EXISTS*/ ?PlayerTable (
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE /*!32312 IF NOT EXISTS*/ ?AttachmentTable (
+  `screenshotId` int(11) NOT NULL auto_increment,
   `playerId` int(11) NOT NULL,
   `serverId` int(11) NOT NULL,
-  `data` blob NOT NULL,
+  `data` mediumblob NOT NULL,
   `uploadDate` datetime not null,
   `uploadingUserId` int not null,
+  PRIMARY KEY (`screenshotId`),
   KEY ?AttachmentTable (`serverId`),
   KEY ?PlayerTable (`playerId`),
   CONSTRAINT `screenshots_ibfk_2` FOREIGN KEY (`playerId`) REFERENCES ?PlayerTable (`id`),

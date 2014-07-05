@@ -40,7 +40,7 @@ namespace PlayerTracker.Server.Util {
 
 		public object executeScalar(string sql) {
 			this.reconnect();
-			MySqlCommand command = new MySqlCommand(sql, this.connection);
+			MySqlCommand command = this.prepareCommand(sql);
 			return command.ExecuteScalar();
 		}
 
@@ -52,7 +52,7 @@ namespace PlayerTracker.Server.Util {
 
 		public int executeNonQuery(string sql) {
             this.reconnect();
-			MySqlCommand command = new MySqlCommand(sql, this.connection);
+			MySqlCommand command = this.prepareCommand(sql);
 			return command.ExecuteNonQuery();
 		}
 
@@ -64,7 +64,7 @@ namespace PlayerTracker.Server.Util {
 
 		public MySqlDataReader executeReader(string sql) {
 			this.reconnect();
-			MySqlCommand command = new MySqlCommand(sql, this.connection);
+			MySqlCommand command = this.prepareCommand(sql);
 			return command.ExecuteReader();
 		}
 
@@ -83,7 +83,7 @@ namespace PlayerTracker.Server.Util {
 			this.Dispose(true);
 		}
 
-		private string getTable(string index) {
+		public string getTable(string index) {
 			return this.tables[index];
 		}
 
