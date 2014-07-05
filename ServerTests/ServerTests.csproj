@@ -50,6 +50,10 @@
     <Compile Include="ServerTests.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Common\Common.csproj">
+      <Project>{c7d6ec30-a212-471a-a6dc-d88262a8b459}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Server\Server.csproj">
       <Project>{5CB554F3-1953-4CB5-8C9F-3E34A2723A72}</Project>
       <Name>Server</Name>
