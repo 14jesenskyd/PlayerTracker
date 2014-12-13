@@ -54,6 +54,12 @@
     <Compile Include="Forms\Management\Abstract User Management Form.Designer.cs">
       <DependentUpon>Abstract User Management Form.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\Management\Components\Group Component.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Forms\Management\Components\Group Component.Designer.cs">
+      <DependentUpon>Group Component.cs</DependentUpon>
+    </Compile>
     <Compile Include="Net\Packets\AbstractAttachmentPacket.cs" />
     <Compile Include="Net\Packets\AttachmentListRequestPacket.cs" />
     <Compile Include="Net\Packets\AttachmentListResponsePacket.cs" />
@@ -83,7 +89,14 @@
     <Compile Include="Util\Logger.cs" />
     <Compile Include="Util\TimeUtils.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Forms\Management\Abstract Group Management Form.resx">
+      <DependentUpon>Abstract Group Management Form.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Management\Components\Group Component.resx">
+      <DependentUpon>Group Component.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

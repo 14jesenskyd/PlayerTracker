@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using PlayerTracker.Common.Forms.Management;
+using PlayerTracker.Common.Forms.Management.Components;
 
 namespace PlayerTracker.Client.Forms.Management {
 	class GroupManagementForm : AbstractGroupManagementForm {
@@ -10,6 +11,8 @@ namespace PlayerTracker.Client.Forms.Management {
 		}
 
 		protected override void btnAdd_Click(object sender, EventArgs e) {
+			GroupComponent g = new GroupComponent();
+			pnlGroups.Controls.Add(g);
 		}
 
 		protected override void btnSave_Click(object sender, EventArgs e) {
